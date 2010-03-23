@@ -1,0 +1,13 @@
+
+All libraries are built for ack and for gcc separately. gmake is used as
+make, and gcc is used for compiling. This takes up a lot more memory
+than minix make and ack. To compile the libraries for ack only, e.g.
+for systems with less memory than required for gcc and gmake, follow
+these steps:
+
+1. chmem /usr/gnu/bin/gmake to 250 kB
+2. Copy  Makefile.ack.inc in this directory to ../Makefile.inc
+2. Copy  Makefile-ack to ../Makefile.
+
+Then run gmake as normal.
+
