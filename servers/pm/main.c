@@ -391,3 +391,4 @@ struct mem_map *map_ptr;			/* memory to remove */
   }
 }
 
+/* isspace */
