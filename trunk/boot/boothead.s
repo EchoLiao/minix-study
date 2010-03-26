@@ -6,12 +6,13 @@
 ! copying memory to arbitrary locations, etc.
 !
 ! The primary bootstrap code supplies the following parameters in registers:
+!### 入口参数:
 !	dl	= Boot-device.
 !	es:si	= Partition table entry if hard disk.
 !
 .text
 
-	o32	    =	  0x66	! This assembler doesn't know 386 extensions
+	o32	        =	  0x66	! This assembler doesn't know 386 extensions
 	BOOTOFF	    =	0x7C00	! 0x0000:BOOTOFF load a bootstrap here
 	LOADSEG     =	0x1000	! Where this code is loaded.
 	BUFFER	    =	0x0600	! First free memory
@@ -49,6 +50,9 @@
 ! bootblock will jump to address 0x10030 in both cases, calling one of the
 ! two jmpf instructions below.
 
+	! ! near and short jumps cause the ip to be updated while far jumps cause
+	! ! cs and ip to be updated.
+	! ?????
 	jmpf	boot, LOADSEG+3	! Set cs right (skipping long a.out header)
 	.space	11		! jmpf + 11 = 16 bytes
 	jmpf	boot, LOADSEG+2	! Set cs right (skipping short a.out header)
@@ -79,16 +83,19 @@ sepID:
 	sti			! Stack ok now
 	push	es		! Save es, we need it for the partition table
 	mov	es, ax
-	cld			! C compiler wants UP
+	cld			! C compiler wants UP. !cld - clear direction flag. ++
 
 ! Clear bss
+! ! _edata and _end are variables that are set by the compiler.  _edata is the
+! ! offset address of the end of the data and_end is the offset address of the end
+! ! of the bss. 
 	xor	ax, ax		! Zero
 	mov	di, #_edata	! Start of bss is at end of data
 	mov	cx, #_end	! End of bss (begin of heap)
-	sub	cx, di		! Number of bss bytes
+	sub	cx, di		! Number of bss bytes. cs=cs-di
 	shr	cx, #1		! Number of words
 	rep
-	stos			! Clear bss
+	stos			! Clear bss.清零. ax=>es:di
 
 ! Copy primary boot parameters to variables.  (Can do this now that bss is
 ! cleared and may be written into).

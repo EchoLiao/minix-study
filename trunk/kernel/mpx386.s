@@ -527,7 +527,7 @@ _level0_call:
 k_stack:
 	.space	K_STACK_BYTES	! kernel stack
 k_stktop:			! top of kernel stack
-	.comm	ex_number, 4
+	.comm	ex_number, 4 ! .coom 将全局变量初始化为0. 在这ex_number初始化为4个字节的0.
 	.comm	trap_errno, 4
 	.comm	old_eip, 4
 	.comm	old_cs, 4

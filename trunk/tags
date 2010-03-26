@@ -466,7 +466,7 @@ BOOTBLOCK	boot/installboot.c	28;"	d	file:
 BOOTOFF	boot/bootblock.s	/^	BOOTOFF	   =	0x0030	! Offset into \/boot above header$/;"	d
 BOOTOFF	boot/boothead.s	/^	BOOTOFF	    =	0x7C00	! 0x0000:BOOTOFF load a bootstrap here$/;"	d
 BOOTPOS	boot/boot.h	36;"	d
-BOOTSEG	boot/bootblock.s	/^	BOOTSEG    =	0x1000	! Secondary boot code segment.$/;"	d
+BOOTSEG	boot/bootblock.s	/^	BOOTSEG    =	0x1000	! Secondary boot code segment. ! 64KB(以后)$/;"	d
 BOOTSEG	include/tools.h	14;"	d
 BOOT_BLOCK	servers/fs/const.h	62;"	d
 BOOT_BLOCK_SIZE	boot/installboot.c	41;"	d	file:
@@ -501,6 +501,7 @@ BUFFER	boot/bootblock.s	/^	BUFFER	   =	0x0600	! First free memory$/;"	d
 BUFFER	boot/boothead.s	/^	BUFFER	    =	0x0600	! First free memory$/;"	d
 BUFFER	boot/jumpboot.s	/^	BUFFER	   =	0x0600	! First free memory$/;"	d
 BUFFER	boot/masterboot.s	/^	BUFFER	   =	0x0600	! First free memory$/;"	d
+BUFFER	boot/masterboot_nal.s	/^	BUFFER	   =	0x0600	! First free memory$/;"	d
 BUFLEN	lib/zlib-1.2.3/minigzip.c	62;"	d	file:
 BUFREADCOMMENT	lib/zlib-1.2.3/contrib/minizip/unzip.c	320;"	d	file:
 BUFREADCOMMENT	lib/zlib-1.2.3/contrib/minizip/zip.c	430;"	d	file:
@@ -4045,7 +4046,8 @@ LOAD	lib/zlib-1.2.3/infback.c	119;"	d	file:
 LOAD	lib/zlib-1.2.3/inflate.c	403;"	d	file:
 LOADOFF	boot/bootblock.s	/^	LOADOFF	   =	0x7C00	! 0x0000:LOADOFF is where this code is loaded$/;"	d
 LOADOFF	boot/jumpboot.s	/^	LOADOFF	   =	0x7C00	! 0x0000:LOADOFF is where this code is loaded$/;"	d
-LOADOFF	boot/masterboot.s	/^	LOADOFF	   =	0x7C00	! 0x0000:LOADOFF is where this code is loaded$/;"	d
+LOADOFF	boot/masterboot.s	/^	LOADOFF	   =	0x7C00	! 0x0000:LOADOFF is where this code is loaded ! 本程序是怎么加载进来的?????$/;"	d
+LOADOFF	boot/masterboot_nal.s	/^	LOADOFF	   =	0x7C00	! 本程序自动被Bios加载到这里.$/;"	d
 LOADSEG	boot/boothead.s	/^	LOADSEG     =	0x1000	! Where this code is loaded.$/;"	d
 LOC	lib/zlib-1.2.3/contrib/delphi/zlibd32.mak	/^LOC = -DZEXPORT=__fastcall -DZEXPORTVA=__cdecl$/;"	m
 LOC	lib/zlib-1.2.3/contrib/pascal/zlibd32.mak	/^LOC = -DZEXPORT=__fastcall -DZEXPORTVA=__cdecl$/;"	m
@@ -4311,7 +4313,8 @@ MACHINE_ID_ADDR	include/ibm/bios.h	119;"	d
 MACHINE_ID_SIZE	include/ibm/bios.h	120;"	d
 MACINTOSH	include/minix/config.h	31;"	d
 MAGIC	boot/jumpboot.s	/^	MAGIC	   =	   510	! Location of the AA55 magic number$/;"	d
-MAGIC	boot/masterboot.s	/^	MAGIC	   =	   510	! Location of the AA55 magic number$/;"	d
+MAGIC	boot/masterboot.s	/^	MAGIC	   =	   510	! Location of the AA55 magic number ! 1FE$/;"	d
+MAGIC	boot/masterboot_nal.s	/^	MAGIC	   =	   510	! Location of the AA55 magic number ! (1FE, 1FF)  (510, 511)$/;"	d
 MAGIC	lib/ack/h/pc_file.h	11;"	d
 MAGIC	lib/h/pc_file.h	11;"	d
 MAGIC	lib/other/v8regexp.c	38;"	d	file:
@@ -5650,7 +5653,8 @@ PARODD	include/termios.h	51;"	d
 PARTIAL_DATA_BLOCK	servers/fs/buf.h	73;"	d
 PARTPOS	boot/installboot.c	34;"	d	file:
 PART_TABLE	boot/jumpboot.s	/^	PART_TABLE =	   446	! Location of partition table within master$/;"	d
-PART_TABLE	boot/masterboot.s	/^	PART_TABLE =	   446	! Location of partition table within this code$/;"	d
+PART_TABLE	boot/masterboot.s	/^	PART_TABLE =	   446	! Location of partition table within this code ! 分区表的入口位置,也即是代码段的大小. 1BE$/;"	d
+PART_TABLE	boot/masterboot_nal.s	/^	PART_TABLE =	   446	! 分区表的入口位置,也即是代码段的大小. 1BE$/;"	d
 PART_TABLE_OFF	include/ibm/partition.h	20;"	d
 PASS	lib/ip/servxcheck.c	156;"	d	file:
 PASSWD	lib/other/getpwent.c	/^static char PASSWD[]= "\/etc\/passwd";	\/* The password file. *\/$/;"	v	file:
@@ -5734,7 +5738,8 @@ PEEK	lib/regex/regcomp.c	138;"	d	file:
 PEEK2	lib/regex/regcomp.c	139;"	d	file:
 PENTRYSIZE	boot/boothead.s	/^	PENTRYSIZE  =	    16	! Partition table entry size.$/;"	d
 PENTRYSIZE	boot/jumpboot.s	/^	PENTRYSIZE =	    16	! Size of one partition table entry$/;"	d
-PENTRYSIZE	boot/masterboot.s	/^	PENTRYSIZE =	    16	! Size of one partition table entry$/;"	d
+PENTRYSIZE	boot/masterboot.s	/^	PENTRYSIZE =	    16	! Size of one partition table entry ! 分区表每项16字节, 共4项, 共64字节$/;"	d
+PENTRYSIZE	boot/masterboot_nal.s	/^	PENTRYSIZE =	    16	! 分区表每项16字节.(共4项, 共64字节)$/;"	d
 PFF_EMPTY	servers/inet/generic/psip.c	52;"	d	file:
 PFF_INUSE	servers/inet/generic/psip.c	53;"	d	file:
 PFF_NEXTHOP	servers/inet/generic/psip.c	56;"	d	file:
@@ -5770,7 +5775,7 @@ PLUSMINUS	lib/curses/cursesio.c	109;"	d	file:
 PMODE	lib/stdio/fopen.c	14;"	d	file:
 PMODE	lib/stdio/freopen.c	14;"	d	file:
 PM_C	kernel/table.c	82;"	d	file:
-PM_CHUNK_SIZE	servers/pm/exec.c	557;"	d	file:
+PM_CHUNK_SIZE	servers/pm/exec.c	558;"	d	file:
 PM_PID	servers/pm/const.h	19;"	d
 PM_PROC_NR	include/minix/com.h	34;"	d
 POLYNOM1	lib/ack/h/pc_math.h	27;"	d
@@ -11553,6 +11558,7 @@ bigdisk	boot/bootblock.s	/^bigdisk:$/;"	l
 bigdisk	boot/boothead.s	/^bigdisk:$/;"	l
 bigdisk	boot/jumpboot.s	/^bigdisk:$/;"	l
 bigdisk	boot/masterboot.s	/^bigdisk:$/;"	l
+bigdisk	boot/masterboot_nal.s	/^bigdisk:$/;"	l
 bigmin	lib/ack/i386/em/em_fp8087.s	/^bigmin:$/;"	l
 bigmin	lib/i386/em/em_fp8087.s	/^bigmin:$/;"	l
 bigmin	lib/i86/em/em_fp8087.s	/^bigmin:$/;"	l
@@ -11671,12 +11677,14 @@ bootdev	boot/boot.c	/^} bootdev;$/;"	v	typeref:struct:biosdev
 bootdev_base	include/minix/type.h	/^  phys_bytes bootdev_base;	\/* boot device from boot image (\/dev\/boot) *\/$/;"	m	struct:kinfo	access:public
 bootdev_size	include/minix/type.h	/^  phys_bytes bootdev_size;$/;"	m	struct:kinfo	access:public
 bootind	boot/masterboot.s	/^	bootind	   =	     0$/;"	d
+bootind	boot/masterboot_nal.s	/^	bootind	   =	     0$/;"	d
 bootind	include/ibm/partition.h	/^  unsigned char bootind;	\/* boot indicator 0\/ACTIVE_FLAG	 *\/$/;"	m	struct:part_entry	access:public
 bootminix	boot/boot.c	292;"	d	file:
 bootminix	boot/boot.h	/^void bootminix(void);		\/* Load and start a Minix image. *\/$/;"	p	signature:(void)
 bootminix	boot/bootimage.c	/^void bootminix(void)$/;"	f	signature:(void)
 bootstrap	boot/boot.h	/^void bootstrap(int device, struct part_entry *entry);$/;"	p	signature:(int device, struct part_entry *entry)
 bootstrap	boot/masterboot.s	/^bootstrap:$/;"	l
+bootstrap	boot/masterboot_nal.s	/^bootstrap:$/;"	l
 boottime	servers/fs/glo.h	/^EXTERN time_t boottime;		\/* time in seconds at system boot *\/$/;"	v
 boottime	servers/pm/time.c	/^PRIVATE time_t boottime;$/;"	v
 bopen	lib/zlib-1.2.3/examples/gzjoin.c	/^local bin *bopen(char *name)$/;"	f	signature:(char *name)
@@ -12744,6 +12752,7 @@ dec	boot/boothead.s	/^	dec	dx		! It is an XT$/;"	d
 dec	boot/doshead.s	/^	dec	dx		! Assume AT$/;"	d
 dec	boot/doshead.s	/^	dec	dx		! It is an XT$/;"	d
 dec	boot/masterboot.s	/^	dec	di$/;"	d
+dec	boot/masterboot_nal.s	/^	dec		di$/;"	d
 dec	lib/i86/em/em_trp.s	/^dec bx$/;"	l
 dec	lib/i86/misc/oneC_sum.s	/^	dec	di			! the dx register, i.e. rotate 8 bits$/;"	d
 dec	lib/i86/string/_memmove.s	/^	dec	di$/;"	d
@@ -13036,8 +13045,9 @@ diff64	include/minix/u64.h	/^unsigned diff64(u64_t i, u64_t j);$/;"	p	signature:
 difftime	lib/ansi/difftime.c	/^difftime(time_t time1, time_t time0)$/;"	f	signature:(time_t time1, time_t time0)
 dig	lib/ack/libp/rdr.c	/^static dig(ch) int ch; {$/;"	f	file:
 dig	lib/libp/rdr.c	/^static dig(ch) int ch; {$/;"	f	file:
-digit	boot/bootblock.s	/^digit:	addb	(si), al	! Modify '0' in string$/;"	l
+digit	boot/bootblock.s	/^digit:	$/;"	l
 digit	boot/masterboot.s	/^digit:	addb	(si), al	! Modify '0' in string$/;"	l
+digit	boot/masterboot_nal.s	/^digit:	addb	(si), al	! Modify '0' in string$/;"	l
 dindir	boot/rawfs.c	/^static char dindir[MAX_BLOCK_SIZE];	\/* Double indirect block. *\/$/;"	v	file:
 dir	test/test17.c	/^								   "r-x", "rw-", "rwx"}, *dir[8] = {"d---", "d--x", "d-w-", "d-wx", "dr--", "dr-x",$/;"	v
 dir	test/test17.c	/^char *dir[];$/;"	v
@@ -13606,6 +13616,7 @@ driver_nr	servers/fs/param.h	34;"	d
 driver_task	drivers/libdriver/driver.c	/^PUBLIC void driver_task(dp)$/;"	f
 drun	boot/boot.h	/^EXTERN char *drun;	\/* Initial command from DOS command line. *\/$/;"	v
 ds	boot/bootimage.c	/^	u32_t	ds;		\/* Data segment. *\/$/;"	m	struct:process	file:	access:public
+ds	boot/stack_var.tmp.asm	/^ds  LOADSEG$/;"	l
 ds	include/ibm/int86.h	/^	u16_t	ds, es;			\/* DS and ES real mode segment regs *\/$/;"	m	struct:reg86::w	access:public
 ds	kernel/protect.c	/^  reg_t ds;$/;"	m	struct:tss_s	file:	access:public
 ds	kernel/type.h	/^  u16_t ds;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
@@ -14097,6 +14108,7 @@ errmes	lib/libm2/catch.c	/^	char *errmes;$/;"	m	struct:errm	file:	access:public
 errmes	lib/libp/catch.c	/^	char *errmes;$/;"	m	struct:errm	file:	access:public
 errno	boot/bootblock.s	/^errno:	.ascii	"00 \\0"$/;"	l
 errno	boot/masterboot.s	/^errno:	.ascii	"00\\0"$/;"	l
+errno	boot/masterboot_nal.s	/^errno:	.ascii	"00\\0"$/;"	l
 errno	include/sys/asynchio.h	/^	int	errno;$/;"	m	struct:__anon8	access:public
 errno	lib/ack/libm2/catch.c	/^	int errno;$/;"	m	struct:errm	file:	access:public
 errno	lib/ack/libp/catch.c	/^	int errno;$/;"	m	struct:errm	file:	access:public
@@ -14107,6 +14119,7 @@ errno	lib/zlib-1.2.3/zutil.c	/^    int errno = 0;$/;"	v
 errno	lib/zlib-1.2.3/zutil.h	33;"	d
 error	boot/bootblock.s	/^error:$/;"	l
 error	boot/masterboot.s	/^error:$/;"	l
+error	boot/masterboot_nal.s	/^error:$/;"	l
 error	lib/regex/regcomp.c	/^	int error;		\/* has an error been seen? *\/$/;"	m	struct:parse	file:	access:public
 error	lib/zlib-1.2.3/contrib/iostream2/zstream.h	/^        const char* error(int* errnum) {$/;"	f	class:izstream	access:public	signature:(int* errnum)
 error	lib/zlib-1.2.3/contrib/iostream2/zstream.h	/^        const char* error(int* errnum) {$/;"	f	class:ozstream	access:public	signature:(int* errnum)
@@ -14117,6 +14130,7 @@ error	lib/zlib-1.2.3/minigzip.c	/^void error            OF((const char *msg));$/
 error	lib/zlib-1.2.3/minigzip.c	/^void error(msg)$/;"	f
 error	servers/inet/inet_config.c	/^static void error(void)$/;"	f	file:	signature:(void)
 error1	boot/masterboot.s	/^error1:	jc	error			! No disk?$/;"	l
+error1	boot/masterboot_nal.s	/^error1:	jc	error			! No disk?$/;"	l
 error_reply	servers/inet/generic/ip_write.c	/^FORWARD void error_reply ARGS(( ip_fd_t *fd, int error ));$/;"	p	file:	signature:( ip_fd_t *fd, int error )
 error_reply	servers/inet/generic/ip_write.c	/^PRIVATE void error_reply (ip_fd, error)$/;"	f
 errorfds	servers/fs/select.c	/^	fd_set readfds, writefds, errorfds;$/;"	m	struct:selectentry	file:	access:public
@@ -14124,6 +14138,7 @@ errors	lib/ack/libm2/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
 errors	lib/ack/libp/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
 errors	lib/libm2/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
 errors	lib/libp/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
+es	boot/stack_var.tmp.asm	/^es	cs+text\/16$/;"	l
 es	include/ibm/int86.h	/^	u16_t	ds, es;			\/* DS and ES real mode segment regs *\/$/;"	m	struct:reg86::w	access:public
 es	kernel/protect.c	/^  reg_t es;$/;"	m	struct:tss_s	file:	access:public
 es	kernel/type.h	/^  u16_t es;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
@@ -14546,6 +14561,7 @@ ext_rw	boot/bootblock.s	/^ext_rw:$/;"	l
 ext_rw	boot/boothead.s	/^ext_rw:$/;"	l
 ext_rw	boot/jumpboot.s	/^ext_rw:$/;"	l
 ext_rw	boot/masterboot.s	/^ext_rw:$/;"	l
+ext_rw	boot/masterboot_nal.s	/^ext_rw:$/;"	l
 extend	lib/float/extend.c	/^extend(from,to,size)$/;"	f
 external_fa	lib/zlib-1.2.3/contrib/minizip/unzip.h	/^    uLong external_fa;          \/* external file attributes        4 bytes *\/$/;"	m	struct:unz_file_info_s	access:public
 external_fa	lib/zlib-1.2.3/contrib/minizip/zip.h	/^    uLong       external_fa;    \/* external file attributes        4 bytes *\/$/;"	m	struct:__anon64	access:public
@@ -14801,7 +14817,8 @@ filp_select_ops	servers/fs/file.h	/^  int filp_select_ops;		\/* interested in th
 filp_selectors	servers/fs/file.h	/^  int filp_selectors;		\/* select()ing processes blocking on this fd *\/$/;"	m	struct:filp	access:public
 filps	servers/fs/select.c	/^	struct filp *filps[FD_SETSIZE];$/;"	m	struct:selectentry	typeref:struct:selectentry::filp	file:	access:public
 filter	drivers/lance/lance.c	/^  unsigned long   filter[2];$/;"	m	struct:lance_init_block	file:	access:public
-find	boot/masterboot.s	/^find:	cmpb	sysind(si), #0		! Partition type, nonzero when in use$/;"	l
+find	boot/masterboot.s	/^find:	cmpb	sysind(si), #0		! Partition type, nonzero when in use ! 系统类型$/;"	l
+find	boot/masterboot_nal.s	/^find:	cmpb	sysind(si), #0	! Partition type, nonzero when in use$/;"	l
 find_ass_ent	servers/inet/generic/ip_read.c	/^FORWARD ip_ass_t *find_ass_ent ARGS(( ip_port_t *ip_port, U16_t id,$/;"	p	file:	signature:( ip_port_t *ip_port, U16_t id, int proto, ipaddr_t src, ipaddr_t dst )
 find_ass_ent	servers/inet/generic/ip_read.c	/^PRIVATE ip_ass_t *find_ass_ent (ip_port, id, proto, src, dst)$/;"	f
 find_best_conn	servers/inet/generic/tcp.c	/^FORWARD tcp_conn_t *find_best_conn ARGS(( ip_hdr_t *ip_hdr, $/;"	p	file:	signature:( ip_hdr_t *ip_hdr, tcp_hdr_t *tcp_hdr )
@@ -14825,6 +14842,7 @@ find_unused_port	servers/inet/generic/udp.c	/^FORWARD udpport_t find_unused_port
 find_unused_port	servers/inet/generic/udp.c	/^PRIVATE udpport_t find_unused_port(fd)$/;"	f
 find_word	lib/editline/editline.c	/^find_word()$/;"	f
 findactive	boot/masterboot.s	/^findactive:$/;"	l
+findactive	boot/masterboot_nal.s	/^findactive:$/;"	l
 findmust	lib/regex/regcomp.c	/^findmust(p, g)$/;"	f	file:
 findmust	lib/regex/regcomp.c	/^static void findmust(struct parse *p, struct re_guts *g);$/;"	p	file:	signature:(struct parse *p, struct re_guts *g)
 findname	lib/ack/libm2/Arguments.c	/^findname(s1, s2)$/;"	f	file:
@@ -15863,7 +15881,7 @@ handler	kernel/type.h	/^  int (*handler)(struct irq_hook *);	\/* interrupt handl
 handler	lib/ack/libm2/init.c	/^int (*handler)() = catch;$/;"	v
 handler	lib/libm2/init.c	/^int (*handler)() = catch;$/;"	v
 handler	lib/posix/_sleep.c	/^static void handler(int sig)$/;"	f	file:	signature:(int sig)
-hang	boot/bootblock.s	/^hang:	jz	hang		! Hang forever waiting for CTRL-ALT-DEL$/;"	l
+hang	boot/bootblock.s	/^hang:	$/;"	l
 hard	test/test9.c	/^void hard()$/;"	f
 hash	lib/regex/regex2.h	/^	uch hash;		\/* hash code *\/$/;"	m	struct:__anon38	access:public
 hash2	servers/fs/cache2.c	34;"	d	file:
@@ -16323,6 +16341,8 @@ incb	boot/boothead.s	/^	incb	dh		! dh = 1 + max head number (0-origin)$/;"	d
 incb	boot/jumpboot.s	/^	incb	dh		! dh = 1 + max head number (0-origin)$/;"	d
 incb	boot/masterboot.s	/^	incb	dh		! dh = 1 + max head number (0-origin)$/;"	d
 incb	boot/masterboot.s	/^	incb	dl			! Increment dl for the next drive$/;"	d
+incb	boot/masterboot_nal.s	/^	incb	dh			! dh = 1 + max head number (0-origin). <255>$/;"	d
+incb	boot/masterboot_nal.s	/^	incb	dl			! Increment dl for the next drive$/;"	d
 inch	include/curses.h	55;"	d
 includedir	lib/zlib-1.2.3/Makefile	/^includedir =${prefix}\/include$/;"	m
 incnt	lib/zlib-1.2.3/contrib/puff/puff.c	/^    unsigned long incnt;        \/* bytes read so far *\/$/;"	m	struct:state	file:	access:public
@@ -17526,14 +17546,17 @@ lmask_mm	lib/zlib-1.2.3/contrib/inflate86/inffast.S	/^#define lmask_mm  %mm4$/;"
 load	boot/bootblock.s	/^load:$/;"	l
 load	boot/jumpboot.s	/^load:$/;"	l
 load	boot/masterboot.s	/^load:$/;"	l
+load	boot/masterboot_nal.s	/^load:$/;"	l
 load	lib/ack/libm2/load.c	/^load(siz, addr, p)$/;"	f
 load	lib/libm2/load.c	/^load(siz, addr, p)$/;"	f
 load0	boot/masterboot.s	/^load0:$/;"	l
+load0	boot/masterboot_nal.s	/^load0:$/;"	l
 load_mtab	lib/other/mtab.c	/^int load_mtab(prog_name)$/;"	f
 load_ram	servers/fs/main.c	/^PRIVATE void load_ram(void)$/;"	f	signature:(void)
 load_super	servers/fs/main.c	/^PRIVATE void load_super(super_dev)$/;"	f
 loadboot	boot/bootblock.s	/^loadboot:$/;"	l
 loadpart	boot/masterboot.s	/^loadpart:$/;"	l
+loadpart	boot/masterboot_nal.s	/^loadpart:$/;"	l
 local	lib/zlib-1.2.3/contrib/blast/blast.c	30;"	d	file:
 local	lib/zlib-1.2.3/contrib/minizip/unzip.c	57;"	d	file:
 local	lib/zlib-1.2.3/contrib/minizip/zip.c	33;"	d	file:
@@ -17680,6 +17703,7 @@ lowsec	boot/boot.h	/^EXTERN u32_t lowsec;	\/* Offset to the file system on the b
 lowsec	boot/bootblock.s	/^	lowsec	   =	     2	! Offset of boot partition within drive$/;"	d
 lowsec	boot/jumpboot.s	/^	lowsec	   =	     8$/;"	d
 lowsec	boot/masterboot.s	/^	lowsec	   =	     8$/;"	d
+lowsec	boot/masterboot_nal.s	/^	lowsec	   =	     8$/;"	d
 lowsec	include/ibm/partition.h	/^  unsigned long lowsec;		\/* logical first sector		 *\/$/;"	m	struct:part_entry	access:public
 lowsec	include/tools.h	/^EXTERN u32_t lowsec;		\/* Offset to the file system on the boot dev *\/$/;"	v
 lp	drivers/lance/lance.c	/^static struct lance_interface  *lp;$/;"	v	typeref:struct:lance_interface	file:
@@ -18052,6 +18076,7 @@ mark_off	lib/zlib-1.2.3/examples/gzlog.c	/^    off_t mark_off;         \/* offse
 mask	lib/i386/misc/oneC_sum.s	/^mask:	.data4	0x000000FF, 0x0000FFFF, 0x00FFFFFF$/;"	l
 mask	lib/regex/regex2.h	/^	uch mask;		\/* bit within array *\/$/;"	m	struct:__anon38	access:public
 master	boot/masterboot.s	/^master:$/;"	l
+master	boot/masterboot_nal.s	/^master:$/;"	l
 match	lib/ip/ruserok.c	/^static int match(const char *word, const char *pattern)$/;"	f	file:	signature:(const char *word, const char *pattern)
 match	lib/ip/servxcheck.c	/^static int match(const char *word, const char *pattern)$/;"	f	file:	signature:(const char *word, const char *pattern)
 match	lib/regex/engine.c	/^struct match {$/;"	s	file:
@@ -18197,6 +18222,7 @@ micro_delay	drivers/fxp/fxp.c	/^static void micro_delay(unsigned long usecs)$/;"
 micro_delay	drivers/fxp/fxp.c	/^static void micro_delay(unsigned long usecs);$/;"	p	file:	signature:(unsigned long usecs)
 migrate	boot/jumpboot.s	/^migrate:$/;"	l
 migrate	boot/masterboot.s	/^migrate:$/;"	l
+migrate	boot/masterboot_nal.s	/^migrate:$/;"	l
 mii_print_stat_speed	drivers/fxp/mii.c	/^PUBLIC void mii_print_stat_speed(stat, extstat)$/;"	f
 mii_print_stat_speed	drivers/rtl8139/rtl8139.c	/^static void mii_print_stat_speed(stat, extstat)$/;"	f	file:
 mii_print_techab	drivers/fxp/mii.c	/^PUBLIC void mii_print_techab(techab)$/;"	f
@@ -18456,10 +18482,11 @@ mul512	boot/doshead.s	/^mul512:	shl	dx, 1$/;"	l
 mul64u	include/minix/u64.h	/^u64_t mul64u(unsigned long i, unsigned j);$/;"	p	signature:(unsigned long i, unsigned j)
 mul_ext	lib/ansi/ext_comp.c	/^mul_ext(struct EXTEND *e1, struct EXTEND *e2, struct EXTEND *e3)$/;"	f	file:	signature:(struct EXTEND *e1, struct EXTEND *e2, struct EXTEND *e3)
 mul_ext	lib/float/mul_ext.c	/^mul_ext(e1,e2)$/;"	f
-mulb	boot/bootblock.s	/^	mulb	dh		! dh = heads, ax = heads * sectors$/;"	d
+mulb	boot/bootblock.s	/^	mulb	dh		! dh = heads, ax = heads * sectors.  ! ax=al*dh$/;"	d
 mulb	boot/boothead.s	/^	mulb	dh		! ax = heads * sectors$/;"	d
 mulb	boot/jumpboot.s	/^	mulb	dh		! dh = heads, ax = heads * sectors$/;"	d
 mulb	boot/masterboot.s	/^	mulb	dh		! dh = heads, ax = heads * sectors$/;"	d
+mulb	boot/masterboot_nal.s	/^	mulb	dh			! dh = heads, ax = heads * sectors. ! ax=al*dh. $/;"	d
 multis	lib/regex/cclass.h	/^	char *multis;$/;"	m	struct:cclass	access:public
 multis	lib/regex/regex2.h	/^	char *multis;		\/* -> char[smulti]  ab\\0cd\\0ef\\0\\0 *\/$/;"	m	struct:__anon38	access:public
 muluchk	lib/ack/libm2/ucheck.c	/^muluchk(a,b)$/;"	f
@@ -18672,8 +18699,11 @@ next_timeout	servers/inet/clock.c	/^PRIVATE time_t next_timeout;$/;"	v
 nextb	test/test4.c	/^int s, i, fd, nextb, errct = 0;$/;"	v
 nextc	lib/other/configfile.c	/^static void nextc(void)$/;"	f	file:	signature:(void)
 nextdisk	boot/masterboot.s	/^nextdisk:$/;"	l
+nextdisk	boot/masterboot_nal.s	/^nextdisk:$/;"	l
 nexthd	boot/masterboot.s	/^nexthd:	call	load0			! Read the hard disk bootstrap$/;"	l
+nexthd	boot/masterboot_nal.s	/^nexthd:	call	load0			! Read the hard disk bootstrap$/;"	l
 nextpart	boot/masterboot.s	/^nextpart:$/;"	l
+nextpart	boot/masterboot_nal.s	/^nextpart:$/;"	l
 nfds	servers/fs/select.c	/^	int nfds, nreadyfds;$/;"	m	struct:selectentry	file:	access:public
 ngf4	lib/float/ngf4.c	/^ngf4(f)$/;"	f
 ngf8	lib/float/ngf8.c	/^ngf8(f)$/;"	f
@@ -18806,6 +18836,7 @@ normalbeg2noroll	lib/zlib-1.2.3/contrib/masmx86/gvmat32.asm	/^normalbeg2noroll:$
 normbeg	lib/zlib-1.2.3/contrib/masmx86/gvmat32.asm	/^normbeg MACRO   rcontlab,valsub$/;"	m
 noshr	lib/zlib-1.2.3/contrib/masmx86/gvmat32.asm	/^noshr:$/;"	l
 nosig	boot/masterboot.s	/^nosig:	call	print$/;"	l
+nosig	boot/masterboot_nal.s	/^nosig:	call	print$/;"	l
 not	lib/i86/em/em_dvi4.s	/^	not     di$/;"	d
 not_provided_option	test/test36.c	/^int not_provided_option(option)$/;"	f
 notext	lib/ack/libp/notext.c	/^notext(f) struct file *f; {$/;"	f
@@ -19000,7 +19031,7 @@ nwuo_locaddr	include/net/gen/udp_io.h	/^	ipaddr_t nwuo_locaddr;$/;"	m	struct:nwi
 nwuo_locport	include/net/gen/udp_io.h	/^	udpport_t nwuo_locport;$/;"	m	struct:nwio_udpopt	access:public
 nwuo_remaddr	include/net/gen/udp_io.h	/^	ipaddr_t nwuo_remaddr;$/;"	m	struct:nwio_udpopt	access:public
 nwuo_remport	include/net/gen/udp_io.h	/^	udpport_t nwuo_remport;$/;"	m	struct:nwio_udpopt	access:public
-o32	boot/boothead.s	/^	o32	    =	  0x66	! This assembler doesn't know 386 extensions$/;"	d
+o32	boot/boothead.s	/^	o32	        =	  0x66	! This assembler doesn't know 386 extensions$/;"	d
 o32	boot/doshead.s	/^o32 eseg mov	(0x046C), eax	! Clear BIOS clock tick counter$/;"	l
 o32	boot/jumpboot.s	/^	o32	   =	  0x66	! This assembler doesn't know 386 extensions$/;"	d
 o32	lib/i86/misc/getprocessor.s	/^	o32 = 0x66		! 32 bit operand size prefix$/;"	d
@@ -19769,6 +19800,9 @@ pop	boot/doshead.s	/^	pop	dx			! dx = size of largest block in kb$/;"	d
 pop	boot/jumpboot.s	/^	pop	dx		! Restore drive code in dl$/;"	d
 pop	boot/masterboot.s	/^	pop	di$/;"	d
 pop	boot/masterboot.s	/^	pop	dx		! Restore drive code in dl$/;"	d
+pop	boot/masterboot_nal.s	/^	pop		dx			! Restore drive code in dl$/;"	d
+pop	boot/masterboot_nal.s	/^	pop		dx			! Restore drive code in dl<设置号>$/;"	d
+pop	boot/masterboot_nal.s	/^	pop	di$/;"	d
 pop	kernel/klib386.s	/^	pop	ds$/;"	d
 pop	lib/i86/em/em_adi.s	/^	pop     dx$/;"	d
 pop	lib/i86/em/em_cii.s	/^	pop     dx$/;"	d
@@ -19864,6 +19898,7 @@ pqdownheap	lib/zlib-1.2.3/trees.c	/^local void pqdownheap(s, tree, k)$/;"	f
 pqremove	lib/zlib-1.2.3/trees.c	434;"	d	file:
 prdone	boot/jumpboot.s	/^prdone:	xchg	si, cx		! Restore si$/;"	l
 prdone	boot/masterboot.s	/^prdone:	jmp	(si)		! Continue after the string$/;"	l
+prdone	boot/masterboot_nal.s	/^prdone:	jmp	(si)		! Continue after the string$/;"	l
 precomp	drivers/at_wini/at_wini.c	/^  u8_t	precomp;	\/* REG_PRECOMP, etc. *\/$/;"	m	struct:command	file:	access:public
 precomp	drivers/at_wini/at_wini.c	/^  unsigned precomp;		\/* write precompensation cylinder \/ 4 *\/$/;"	m	struct:wini	file:	access:public
 prefix	include/tar.h	/^	char prefix[PFXSIZ];$/;"	m	struct:hblock::header	access:public
@@ -19889,9 +19924,10 @@ prev_match	lib/zlib-1.2.3/deflate.h	/^    IPos prev_match;             \/* previ
 prev_ptr	kernel/glo.h	/^EXTERN struct proc *prev_ptr;	\/* previously running process *\/$/;"	v	typeref:struct:proc
 prev_time	servers/inet/clock.c	/^PRIVATE time_t prev_time;$/;"	v
 primary	boot/boot.c	/^	int device, primary, secondary;$/;"	m	struct:biosdev	file:	access:public
-print	boot/bootblock.s	/^print:	lodsb			! al = *si++ is char to be printed$/;"	l
+print	boot/bootblock.s	/^print:		$/;"	l
 print	boot/jumpboot.s	/^print:	mov	cx, si		! Save si$/;"	l
-print	boot/masterboot.s	/^print:	pop	si		! si = String following 'call print'$/;"	l
+print	boot/masterboot.s	/^print:	pop	si		! si = address of String following 'call print'$/;"	l
+print	boot/masterboot_nal.s	/^print:	pop	si		! si = address of String following 'call print'$/;"	l
 print	lib/regex/engine.c	/^print(m, caption, st, ch, d)$/;"	f	file:
 print	lib/regex/engine.c	/^static void print(struct match *m, char *caption, states st, int ch, FILE *d);$/;"	p	file:	signature:(struct match *m, char *caption, states st, int ch, FILE *d)
 print	lib/regex/engine.c	1089;"	d	file:
@@ -19940,8 +19976,10 @@ priv_id	kernel/priv.h	52;"	d
 privileges_dmp	servers/is/dmp_kernel.c	/^PUBLIC void privileges_dmp()$/;"	f
 prnext	boot/jumpboot.s	/^prnext:	lodsb			! al = *si++ is char to be printed$/;"	l
 prnext	boot/masterboot.s	/^prnext:	lodsb			! al = *si++ is char to be printed$/;"	l
-prnum	boot/bootblock.s	/^prnum:	movb	al, ah		! Error number in ah$/;"	l
+prnext	boot/masterboot_nal.s	/^prnext:	lodsb			! al = *si++ is char to be printed$/;"	l
+prnum	boot/bootblock.s	/^prnum:	$/;"	l
 prnum	boot/masterboot.s	/^prnum:	movb	al, ah		! Error number in ah$/;"	l
+prnum	boot/masterboot_nal.s	/^prnum:	movb	al, ah		! Error number in ah$/;"	l
 pro	servers/fs/param.h	32;"	d
 probe_bus	drivers/libpci/pci.c	/^PRIVATE void probe_bus(busind)$/;"	f
 proc	kernel/proc.h	/^EXTERN struct proc proc[NR_TASKS + NR_PROCS];	\/* process table *\/$/;"	v	typeref:struct:proc
@@ -20180,6 +20218,7 @@ push	boot/doshead.s	/^	push	ds$/;"	d
 push	boot/doshead.s	/^	push	dx		! Kernel code segment$/;"	d
 push	boot/jumpboot.s	/^	push	dx		! Save drive code$/;"	d
 push	boot/masterboot.s	/^	push	di		! Next call destroys es and di$/;"	d
+push	boot/masterboot_nal.s	/^	push	di		! Next call destroys es and di$/;"	d
 push	kernel/klib386.s	/^	push	ds$/;"	d
 push	lib/ack/math/modf.s	/^	push	dx$/;"	d
 push	lib/i86/em/em_adi.s	/^	push    dx$/;"	d
@@ -20535,6 +20574,7 @@ rd_only	servers/fs/param.h	37;"	d
 rdahed_inode	servers/fs/glo.h	/^EXTERN struct inode *rdahed_inode;	\/* pointer to inode to read ahead *\/$/;"	v	typeref:struct:inode
 rdahedpos	servers/fs/glo.h	/^EXTERN off_t rdahedpos;		\/* position to read ahead *\/$/;"	v
 rdbad	boot/masterboot.s	/^rdbad:	stc			! Set carry flag$/;"	l
+rdbad	boot/masterboot_nal.s	/^rdbad:$/;"	l
 rdbuf	lib/zlib-1.2.3/contrib/iostream/zfstream.cpp	/^gzfilebuf *gzfilestream_common::rdbuf()$/;"	f	class:gzfilestream_common	signature:()
 rdbuf	lib/zlib-1.2.3/contrib/iostream/zfstream.h	/^  gzfilebuf *rdbuf();$/;"	p	class:gzfilestream_common	access:private	signature:()
 rdbuf	lib/zlib-1.2.3/contrib/iostream3/zfstream.h	/^  rdbuf() const$/;"	f	class:gzifstream	access:public	signature:() const
@@ -20547,9 +20587,11 @@ rdeval	boot/bootblock.s	/^rdeval:$/;"	l
 rdeval	boot/boothead.s	/^rdeval:$/;"	l
 rdeval	boot/jumpboot.s	/^rdeval:$/;"	l
 rdeval	boot/masterboot.s	/^rdeval:$/;"	l
+rdeval	boot/masterboot_nal.s	/^rdeval:$/;"	l
 rdleft	drivers/tty/pty.c	/^  int		rdleft;		\/* # bytes yet to be read *\/$/;"	m	struct:pty	file:	access:public
 rdok	boot/jumpboot.s	/^rdok:$/;"	l
 rdok	boot/masterboot.s	/^rdok:	cmp	LOADOFF+MAGIC, #0xAA55$/;"	l
+rdok	boot/masterboot_nal.s	/^rdok:	cmp	LOADOFF+MAGIC, #0xAA55$/;"	l
 rdproc	drivers/tty/pty.c	/^  char		rdproc;		\/* process that wants to read from the pty *\/$/;"	m	struct:pty	file:	access:public
 rdsendreply	drivers/tty/pty.c	/^  char		rdsendreply;	\/* send a reply (instead of notify) *\/$/;"	m	struct:pty	file:	access:public
 rdvir	drivers/tty/pty.c	/^  vir_bytes	rdvir;		\/* virtual address in readers address space *\/$/;"	m	struct:pty	file:	access:public
@@ -20745,6 +20787,7 @@ reassemble	servers/inet/generic/ip_read.c	/^FORWARD acc_t *reassemble ARGS(( ip_
 reassemble	servers/inet/generic/ip_read.c	/^PRIVATE acc_t *reassemble (ip_port, pack, pack_hdr)$/;"	f
 reboot	boot/boothead.s	/^reboot:	call	dev_reset$/;"	l
 reboot	boot/masterboot.s	/^reboot:$/;"	l
+reboot	boot/masterboot_nal.s	/^reboot:$/;"	l
 reboot	lib/other/_reboot.c	/^int reboot(int how, ...)$/;"	f	signature:(int how, ...)
 reboot	lib/other/_reboot.c	7;"	d	file:
 reboot_code	boot/bootimage.c	/^u32_t reboot_code;	\/* Obsolete reboot code return pointer. *\/$/;"	v
@@ -21063,6 +21106,7 @@ retadr	kernel/type.h	/^  reg_t retadr;			\/* return address for assembly code sa
 retrans	include/net/gen/resolv.h	/^	int	retrans;	 	\/* retransmition time interval *\/$/;"	m	struct:state	access:public
 retreg	kernel/type.h	/^  reg_t retreg;			\/* ax and above are all pushed by save *\/$/;"	m	struct:stackframe_s	access:public
 retry	boot/masterboot.s	/^retry:	push	dx		! Save drive code$/;"	l
+retry	boot/masterboot_nal.s	/^retry:	push	dx	! Save drive code$/;"	l
 retry	include/net/gen/resolv.h	/^	int	retry;			\/* number of times to retransmit *\/$/;"	m	struct:state	access:public
 retumb	boot/doshead.s	/^retumb:	ret$/;"	l
 return	boot/boothead.s	/^return:$/;"	l
@@ -22148,6 +22192,7 @@ sort_dists	servers/inet/generic/ipr.c	/^FORWARD oroute_t *sort_dists ARGS(( orou
 sort_dists	servers/inet/generic/ipr.c	/^PRIVATE oroute_t *sort_dists(oroute)$/;"	f
 sort_gws	servers/inet/generic/ipr.c	/^FORWARD oroute_t *sort_gws ARGS(( oroute_t *oroute ));$/;"	p	file:	signature:( oroute_t *oroute )
 sort_gws	servers/inet/generic/ipr.c	/^PRIVATE oroute_t *sort_gws(oroute)$/;"	f
+sp	boot/stack_var.tmp.asm	/^sp  a_total$/;"	l
 sp	kernel/protect.c	/^  reg_t sp;$/;"	m	struct:tss_s	file:	access:public
 sp	kernel/type.h	/^  reg_t sp;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
 sp	lib/other/fsversion.c	/^static struct super_block super, *sp;$/;"	v	typeref:struct:	file:
@@ -22283,6 +22328,7 @@ srf_write	servers/inet/sr_int.h	/^	sr_write_t srf_write;$/;"	m	struct:sr_fd	acce
 srf_write_ev	servers/inet/sr_int.h	/^	event_t srf_write_ev;$/;"	m	struct:sr_fd	access:public
 srf_write_q	servers/inet/sr_int.h	/^	mq_t *srf_write_q, *srf_write_q_tail;$/;"	m	struct:sr_fd	access:public
 srf_write_q_tail	servers/inet/sr_int.h	/^	mq_t *srf_write_q, *srf_write_q_tail;$/;"	m	struct:sr_fd	access:public
+ss	boot/stack_var.tmp.asm	/^ss	cs+text\/16$/;"	l
 ss	kernel/protect.c	/^  reg_t ss;$/;"	m	struct:tss_s	file:	access:public
 ss	kernel/type.h	/^  reg_t ss;                     \/* these are pushed by CPU during interrupt *\/$/;"	m	struct:stackframe_s	access:public
 ss0	kernel/protect.c	/^  reg_t ss0;                    \/*   "   segment  "  "    "        "     *\/$/;"	m	struct:tss_s	file:	access:public
@@ -22803,6 +22849,7 @@ sysgetenv::val	include/sys/svrctl.h	/^	char		*val;		\/* Buffer for returned data
 sysgetenv::vallen	include/sys/svrctl.h	/^	size_t		vallen;		\/* Size of return data buffer. *\/$/;"	m	struct:sysgetenv	access:public
 sysind	boot/jumpboot.s	/^	sysind	   =	     4$/;"	d
 sysind	boot/masterboot.s	/^	sysind	   =	     4$/;"	d
+sysind	boot/masterboot_nal.s	/^	sysind	   =	     4$/;"	d
 sysind	include/ibm/partition.h	/^  unsigned char sysind;		\/* system indicator		 *\/$/;"	m	struct:part_entry	access:public
 sysname	include/sys/utsname.h	/^  char sysname[15+1];$/;"	m	struct:utsname	access:public
 systaskinfo	include/sys/svrctl.h	/^struct systaskinfo {$/;"	s
@@ -24908,7 +24955,7 @@ zclose_file	lib/zlib-1.2.3/contrib/minizip/ioapi.h	/^    close_file_func     zcl
 zdecode	lib/zlib-1.2.3/contrib/minizip/crypt.h	76;"	d
 zencode	lib/zlib-1.2.3/contrib/minizip/crypt.h	79;"	d
 zero	boot/jumpboot.s	/^zero:	.data4	0		! Starting block number high 32 bits$/;"	l
-zero	boot/masterboot.s	/^zero:	.data4	0		! Starting block number high 32 bits$/;"	l
+zero	boot/masterboot_nal.s	/^zero:	.data4	0		! Starting block number high 32 bits$/;"	l
 zero	test/test5.c	/^int zero[1024];$/;"	v
 zero_block	servers/fs/write.c	/^PUBLIC void zero_block(bp)$/;"	f
 zerr	lib/zlib-1.2.3/examples/zpipe.c	/^void zerr(int ret)$/;"	f	signature:(int ret)
