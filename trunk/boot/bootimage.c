@@ -1,5 +1,5 @@
 /*	bootimage.c - Load an image and start it.	Author: Kees J. Bot
- *								19 Jan 1992
+*								19 Jan 1992
  */
 #define BIOS		1	/* Can only be used under the BIOS. */
 #define nil 0
@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
+#include <limits.h> /* NAME_MAX */
 #include <string.h>
 #include <errno.h>
 #include <a.out.h>
@@ -633,6 +633,18 @@ ino_t latest_version(char *version, struct stat *stp)
 	return newest;
 }
 
+/*==========================================================================*
+ *@Description:		在指定位置查找并选择一个内存映象.
+ *					1) 如果image是文件名称, 则加载它;
+ *					2) 如果image是目录名称, 则加载目录中最新的;
+ *					3) 如果以上都不是, 则检查image参数是不是以"xx:xx"的形式给出
+ *					的, 若是, 则从硬盘的此位置中加载
+ *
+ *@Param image		内存映象的名称或目录或位置
+ *
+ *@Returns:   
+ *
+ *==========================================================================*/
 char *select_image(char *image)
 /* Look image up on the filesystem, if it is a file then we're done, but
  * if its a directory then we want the newest file in that directory.  If
@@ -646,7 +658,8 @@ char *select_image(char *image)
 	image= strcpy(malloc((strlen(image) + 1 + NAME_MAX + 1)
 						 * sizeof(char)), image);
 
-	fsok= r_super(&block_size) != 0;
+	/* fsok 在boot.h中声明: [>extern int fsok;<] */
+	fsok= r_super(&block_size) != 0; /* 即: fsok= (r_super(&block_size) != 0); */
 	if (!fsok || (image_ino= r_lookup(ROOT_INO, image)) == 0) {
 		char *size;
 

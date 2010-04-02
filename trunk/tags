@@ -538,7 +538,7 @@ BYTES_REVERSED	lib/float/get_put.h	16;"	d
 BYTE_GRAN_MAX	kernel/protect.h	110;"	d
 BYTE_SWAP	servers/fs/const.h	57;"	d
 B_INDEX	kernel/protect.h	21;"	d
-B_NOSIG	boot/boot.c	1301;"	d	file:
+B_NOSIG	boot/boot.c	1387;"	d	file:
 B_TIME	drivers/tty/console.c	53;"	d	file:
 Basic functions	lib/zlib-1.2.3/old/zlib.html	/^<a name="Basic functions"><h2> Basic functions <\/h2>$/;"	a
 Bass	include/minix/sound.h	/^  Bass        \/* Bass *\/$/;"	e	enum:Device
@@ -1430,7 +1430,7 @@ DEV_CANCEL	servers/inet/sr.c	62;"	d	file:
 DEV_CLONED	include/minix/com.h	95;"	d
 DEV_CLOSE	include/minix/com.h	86;"	d
 DEV_DIR	lib/util/openpty.c	24;"	d	file:
-DEV_FD0	boot/boot.c	1029;"	d	file:
+DEV_FD0	boot/boot.c	1115;"	d	file:
 DEV_GATHER	include/minix/com.h	88;"	d
 DEV_IOCTL	include/minix/com.h	84;"	d
 DEV_IOCTL3	servers/inet/sr.c	64;"	d	file:
@@ -1631,7 +1631,7 @@ DONE	lib/zlib-1.2.3/inflate.h	/^    DONE,       \/* finished check, done -- rema
 DONT_SWAP	servers/pm/mproc.h	71;"	d
 DONT_USE_MMX	lib/zlib-1.2.3/contrib/inflate86/inffast.S	/^#define DONT_USE_MMX 3$/;"	d
 DOR	drivers/floppy/floppy.c	32;"	d	file:
-DOS	boot/boot.h	204;"	d
+DOS	boot/boot.h	222;"	d
 DOUBLE	lib/ack/float/FP_types.h	/^}	DOUBLE;$/;"	t	typeref:struct:__anon43
 DOUBLE	lib/ack/fphook/FP_types.h	/^}	DOUBLE;$/;"	t	typeref:struct:__anon46
 DOUBLE	lib/float/FP_types.h	/^}	DOUBLE;$/;"	t	typeref:struct:__anon40
@@ -2786,9 +2786,9 @@ E_790_HWR_SWH	drivers/dp8390/wdeth.h	77;"	d
 E_790_HWR_SWH	drivers/dpeth/wd.h	90;"	d
 E_790_ICR_EIL	drivers/dp8390/wdeth.h	80;"	d
 E_790_ICR_EIL	drivers/dpeth/wd.h	93;"	d
-E_DEV	boot/boot.h	143;"	d
+E_DEV	boot/boot.h	160;"	d
 E_DEV	include/tools.h	54;"	d
-E_FUNCTION	boot/boot.h	149;"	d
+E_FUNCTION	boot/boot.h	167;"	d
 E_FUNCTION	include/tools.h	60;"	d
 E_ICR_16BIT	drivers/dp8390/wdeth.h	46;"	d
 E_ICR_16BIT	drivers/dpeth/wd.h	60;"	d
@@ -2824,11 +2824,11 @@ E_MSR_MENABLE	drivers/dp8390/wdeth.h	42;"	d
 E_MSR_MENABLE	drivers/dpeth/wd.h	56;"	d
 E_MSR_RESET	drivers/dp8390/wdeth.h	43;"	d
 E_MSR_RESET	drivers/dpeth/wd.h	57;"	d
-E_RESERVED	boot/boot.h	144;"	d
+E_RESERVED	boot/boot.h	161;"	d
 E_RESERVED	include/tools.h	55;"	d
-E_SPECIAL	boot/boot.h	142;"	d
+E_SPECIAL	boot/boot.h	159;"	d
 E_SPECIAL	include/tools.h	53;"	d
-E_STICKY	boot/boot.h	145;"	d
+E_STICKY	boot/boot.h	162;"	d
 E_STICKY	include/tools.h	56;"	d
 E_TLB_E	drivers/dp8390/wdeth.h	67;"	d
 E_TLB_E	drivers/dpeth/wd.h	81;"	d
@@ -2845,7 +2845,7 @@ E_TLB_SMCE	drivers/dp8390/wdeth.h	68;"	d
 E_TLB_SMCE	drivers/dpeth/wd.h	82;"	d
 E_TLB_SOFT	drivers/dp8390/wdeth.h	73;"	d
 E_TLB_SOFT	drivers/dpeth/wd.h	86;"	d
-E_VAR	boot/boot.h	148;"	d
+E_VAR	boot/boot.h	166;"	d
 E_VAR	include/tools.h	59;"	d
 End	lib/editline/editline.c	/^STATIC int		End;$/;"	v
 Ether_type_t	include/net/gen/ether.h	/^typedef U16_t Ether_type_t;$/;"	t
@@ -2996,7 +2996,7 @@ FLUSHCODE	lib/zlib-1.2.3/examples/gun.c	167;"	d	file:
 FLUSH_BLOCK	lib/zlib-1.2.3/deflate.c	1376;"	d	file:
 FLUSH_BLOCK_ONLY	lib/zlib-1.2.3/deflate.c	1364;"	d	file:
 FL_ALT	lib/stdio/loc_incl.h	31;"	d
-FL_CARRY	boot/boot.h	78;"	d
+FL_CARRY	boot/boot.h	94;"	d
 FL_LJUST	lib/stdio/loc_incl.h	28;"	d
 FL_LONG	lib/stdio/loc_incl.h	34;"	d
 FL_LONGDOUBLE	lib/stdio/loc_incl.h	35;"	d
@@ -7357,7 +7357,7 @@ SUPER_MAGIC	servers/fs/const.h	19;"	d
 SUPER_REV	servers/fs/const.h	20;"	d
 SUPER_SIZE	servers/fs/const.h	68;"	d
 SUPER_USER	include/minix/const.h	19;"	d
-SUPER_V1	boot/rawfs.c	52;"	d	file:
+SUPER_V1	boot/rawfs.c	53;"	d	file:
 SUPER_V2	servers/fs/const.h	21;"	d
 SUPER_V2_REV	servers/fs/const.h	22;"	d
 SUPER_V3	servers/fs/const.h	23;"	d
@@ -7975,7 +7975,7 @@ TagzipFile__::unused	lib/zlib-1.2.3/contrib/minizip/zip.h	/^typedef struct Tagzi
 Tbase	boot/boot.c	/^u32_t Tbase, Tcount;$/;"	v
 Tcount	boot/boot.c	/^u32_t Tbase, Tcount;$/;"	v
 Tcpport_t	include/net/gen/tcp.h	/^typedef U16_t Tcpport_t;	\/* for use in prototypes *\/$/;"	t
-Thandler	boot/boot.c	/^char *Thandler;$/;"	v
+Thandler	boot/boot.c	/^char *Thandler; \/* 时间到, 执行的命令或函数 *\/ $/;"	v
 Time	test/test35.c	27;"	d	file:
 Time	test/test8.c	19;"	d	file:
 ToLongName	test/test20.c	/^char ToLongName[NAME_MAX + 2];	\/* Name of maximum +1 length *\/$/;"	v
@@ -11030,7 +11030,7 @@ ah	include/ibm/int86.h	/^	u8_t	al, ah, _eax[2];	\/* 8 bit general registers *\/$
 ahe_row	servers/inet/generic/arp.c	/^	arp_cache_t *ahe_row[ARP_HASH_WIDTH];$/;"	m	struct:arp_hash_ent	file:	access:public
 al	include/ibm/int86.h	/^	u8_t	al, ah, _eax[2];	\/* 8 bit general registers *\/$/;"	m	struct:reg86::b	access:public
 al	lib/ip/gethnmadr.c	/^    long al;$/;"	m	union:align	file:	access:public
-alarm	boot/boot.c	153;"	d	file:
+alarm	boot/boot.c	162;"	d	file:
 alarm	lib/other/asynchio.c	9;"	d	file:
 alarm	lib/posix/_alarm.c	/^PUBLIC unsigned int alarm(sec)$/;"	f
 alarm	lib/posix/_alarm.c	2;"	d	file:
@@ -11098,9 +11098,9 @@ ap_sendlist	servers/inet/generic/arp.c	/^	acc_t *ap_sendlist;$/;"	m	struct:arp_p
 ap_sendpkt	servers/inet/generic/arp.c	/^	acc_t *ap_sendpkt;$/;"	m	struct:arp_port	file:	access:public
 ap_state	servers/inet/generic/arp.c	/^	int ap_state;$/;"	m	struct:arp_port	file:	access:public
 apm_perror	boot/boot.c	/^static void apm_perror(char *label, u16_t ax)$/;"	f	file:	signature:(char *label, u16_t ax)
-apm_perror	boot/boot.c	1184;"	d	file:
-apm_printf	boot/boot.c	1182;"	d	file:
-apm_printf	boot/boot.c	1185;"	d	file:
+apm_perror	boot/boot.c	1270;"	d	file:
+apm_printf	boot/boot.c	1268;"	d	file:
+apm_printf	boot/boot.c	1271;"	d	file:
 ar_entry	servers/inet/generic/arp.c	/^		int ar_entry;$/;"	m	struct:arp_port::arp_req	file:	access:public
 ar_req_count	servers/inet/generic/arp.c	/^		int ar_req_count;$/;"	m	struct:arp_port::arp_req	file:	access:public
 ar_timer	servers/inet/generic/arp.c	/^		timer_t ar_timer;$/;"	m	struct:arp_port::arp_req	file:	access:public
@@ -11367,7 +11367,7 @@ b_data	servers/fs/buf.h	50;"	d
 b_dev	servers/fs/buf.h	/^  dev_t b_dev;			\/* major | minor device where block resides *\/$/;"	m	struct:buf	access:public
 b_dir	servers/fs/buf.h	51;"	d
 b_dirt	servers/fs/buf.h	/^  char b_dirt;			\/* CLEAN or DIRTY *\/$/;"	m	struct:buf	access:public
-b_getenv	boot/boot.c	695;"	d	file:
+b_getenv	boot/boot.c	750;"	d	file:
 b_hash	servers/fs/buf.h	/^  struct buf *b_hash;		\/* used to link bufs on hash chains *\/$/;"	m	struct:buf	typeref:struct:buf::buf	access:public
 b_next	servers/fs/buf.h	/^  struct buf *b_next;		\/* used to link all free bufs in a chain *\/$/;"	m	struct:buf	typeref:struct:buf::buf	access:public
 b_prev	servers/fs/buf.h	/^  struct buf *b_prev;		\/* used to link all free bufs the other way *\/$/;"	m	struct:buf	typeref:struct:buf::buf	access:public
@@ -11554,6 +11554,7 @@ bi_windup	lib/zlib-1.2.3/trees.c	/^local void bi_windup(s)$/;"	f
 big_ext	boot/boothead.s	/^big_ext:$/;"	l
 big_ext	boot/doshead.s	/^big_ext:$/;"	l
 big_ten_powers	lib/ansi/ext_comp.c	/^static struct EXTEND big_ten_powers[] = {  \/* representation of 10 ** (28*i) *\/$/;"	v	typeref:struct:EXTEND	file:
+bigcopy	boot/boothead.s	/^bigcopy:$/;"	l
 bigdisk	boot/bootblock.s	/^bigdisk:$/;"	l
 bigdisk	boot/boothead.s	/^bigdisk:$/;"	l
 bigdisk	boot/jumpboot.s	/^bigdisk:$/;"	l
@@ -11641,6 +11642,7 @@ blast_in	lib/zlib-1.2.3/contrib/blast/blast.h	/^typedef unsigned (*blast_in)(voi
 blast_out	lib/zlib-1.2.3/contrib/blast/blast.h	/^typedef int (*blast_out)(void *how, unsigned char *buf, unsigned len);$/;"	t
 bload	lib/zlib-1.2.3/examples/gzjoin.c	/^local int bload(bin *in)$/;"	f	signature:(bin *in)
 block_done	lib/zlib-1.2.3/deflate.c	/^    block_done,     \/* block flush performed *\/$/;"	e	enum:__anon57	file:
+block_size	boot/boot.c	/^static int block_size; \/*  *\/ $/;"	v	file:
 block_size	boot/boot.c	/^static int block_size;$/;"	v	file:
 block_size	boot/bootimage.c	/^static int block_size = 0;$/;"	v	file:
 block_size	boot/rawfs.c	/^static int block_size;$/;"	v	file:
@@ -11657,7 +11659,7 @@ boot	boot/bootblock.s	/^boot:$/;"	l
 boot	boot/boothead.s	/^boot:$/;"	l
 boot	boot/jumpboot.s	/^boot:$/;"	l
 boot_device	boot/boot.c	/^void boot_device(char *devname)$/;"	f	signature:(char *devname)
-boot_device	boot/boot.c	290;"	d	file:
+boot_device	boot/boot.c	314;"	d	file:
 boot_image	kernel/type.h	/^struct boot_image {$/;"	s
 boot_image::call_mask	kernel/type.h	/^  long call_mask;			\/* system call protection *\/$/;"	m	struct:boot_image	access:public
 boot_image::flags	kernel/type.h	/^  int flags;				\/* process flags *\/$/;"	m	struct:boot_image	access:public
@@ -11679,7 +11681,7 @@ bootdev_size	include/minix/type.h	/^  phys_bytes bootdev_size;$/;"	m	struct:kinf
 bootind	boot/masterboot.s	/^	bootind	   =	     0$/;"	d
 bootind	boot/masterboot_nal.s	/^	bootind	   =	     0$/;"	d
 bootind	include/ibm/partition.h	/^  unsigned char bootind;	\/* boot indicator 0\/ACTIVE_FLAG	 *\/$/;"	m	struct:part_entry	access:public
-bootminix	boot/boot.c	292;"	d	file:
+bootminix	boot/boot.c	316;"	d	file:
 bootminix	boot/boot.h	/^void bootminix(void);		\/* Load and start a Minix image. *\/$/;"	p	signature:(void)
 bootminix	boot/bootimage.c	/^void bootminix(void)$/;"	f	signature:(void)
 bootstrap	boot/boot.h	/^void bootstrap(int device, struct part_entry *entry);$/;"	p	signature:(int device, struct part_entry *entry)
@@ -12112,7 +12114,7 @@ clear_array	test/test17.c	/^void clear_array(b)$/;"	f
 clear_array	test/test18.c	/^void clear_array(b)$/;"	f
 clear_line	lib/editline/editline.c	/^clear_line()$/;"	f
 clear_proc	kernel/system/do_exit.c	/^PRIVATE void clear_proc(rc)$/;"	f
-clear_screen	boot/boot.c	289;"	d	file:
+clear_screen	boot/boot.c	313;"	d	file:
 clear_screen	boot/boot.h	/^void clear_screen(void);$/;"	p	signature:(void)
 clear_zone	servers/fs/write.c	/^PUBLIC void clear_zone(rip, pos, flag)$/;"	f
 clearerr	include/stdio.h	138;"	d
@@ -12213,7 +12215,7 @@ codetype	lib/zlib-1.2.3/inftrees.h	/^} codetype;$/;"	t	typeref:enum:__anon50
 coldp	lib/regex/engine.c	/^	char *coldp;		\/* can be no match starting before here *\/$/;"	m	struct:match	file:	access:public
 color	drivers/tty/console.c	106;"	d	file:
 columns	lib/editline/editline.c	/^columns(ac, av)$/;"	f
-comID	boot/boothead.s	/^comID:	xor	ax, ax$/;"	l
+comID	boot/boothead.s	/^comID:$/;"	l
 com_out	drivers/at_wini/at_wini.c	/^PRIVATE int com_out(cmd)$/;"	f
 com_simple	drivers/at_wini/at_wini.c	/^PRIVATE int com_simple(cmd)$/;"	f
 comm_max	lib/zlib-1.2.3/zlib.h	/^    uInt    comm_max;   \/* space at comment (only when reading header) *\/$/;"	m	struct:gz_header_s	access:public
@@ -12442,6 +12444,7 @@ crtso	lib/i86/rts/ncrtso.s	/^crtso:$/;"	l
 crypt	lib/other/crypt.c	/^char *crypt(const char *key, const char *salt)$/;"	f	signature:(const char *key, const char *salt)
 crypt_header_size	lib/zlib-1.2.3/contrib/minizip/zip.c	/^    int crypt_header_size;$/;"	m	struct:__anon66	file:	access:public
 cs	boot/bootimage.c	/^	u32_t	cs;		\/* Code segment. *\/$/;"	m	struct:process	file:	access:public
+cs	boot/stack_var.tmp.asm	/^cs	LOADSEG+header$/;"	l
 cs	kernel/protect.c	/^  reg_t cs;$/;"	m	struct:tss_s	file:	access:public
 cs	kernel/type.h	/^  reg_t cs;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
 cs_prot	boot/boothead.s	/^cs_prot:$/;"	l
@@ -12473,7 +12476,7 @@ ctrl_l	drivers/tty/keyboard.c	/^PRIVATE int ctrl_l;		\/* left control key state 
 ctrl_r	drivers/tty/keyboard.c	/^PRIVATE int ctrl_r;		\/* right control key state *\/$/;"	v
 cts	drivers/tty/rs232.c	/^  char cts;			\/* normally 0, but MS_CTS if CLOCAL is set *\/$/;"	m	struct:rs232	file:	access:public
 ctty	boot/boot.c	/^void ctty(char *line)$/;"	f	signature:(char *line)
-ctty	boot/boot.c	291;"	d	file:
+ctty	boot/boot.c	315;"	d	file:
 ctty_io	servers/fs/device.c	/^PUBLIC void ctty_io(task_nr, mess_ptr)$/;"	f
 ctty_opcl	servers/fs/device.c	/^PUBLIC int ctty_opcl(op, dev, proc, flags)$/;"	f
 cuf4	lib/float/cuf4.c	/^cuf4(ss,src)$/;"	f
@@ -12519,6 +12522,7 @@ cwd2	test/test23.c	/^char cwd2[PATH_MAX];$/;"	v
 cword	lib/i386/string/memcmp.s	/^cword:	shrd	eax, ecx, 1	! Save low bit of ecx in eax$/;"	l
 cword	lib/i86/string/memcmp.s	/^cword:	sar	cx, #1$/;"	l
 cx	boot/boot.h	/^	u16_t cx;$/;"	m	struct:bios_env	access:public
+cx	boot/stack_var.tmp.asm	/^cx	NUM of bss words$/;"	l
 cx	include/ibm/int86.h	/^	u16_t	cx, _ecx[1];$/;"	m	struct:reg86::w	access:public
 cx	kernel/protect.c	/^  reg_t cx;$/;"	m	struct:tss_s	file:	access:public
 cx	kernel/type.h	/^  reg_t cx;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
@@ -13016,6 +13020,7 @@ dhcp_init	lib/ip/dhcp_settag.c	/^void dhcp_init(dhcp_t *dp)$/;"	f	signature:(dhc
 dhcp_settag	include/net/gen/dhcp.h	/^int dhcp_settag(dhcp_t *_dp, int _tag, void *_data, size_t _len);$/;"	p	signature:(dhcp_t *_dp, int _tag, void *_data, size_t _len)
 dhcp_settag	lib/ip/dhcp_settag.c	/^int dhcp_settag(dhcp_t *dp, int tag, void *data, size_t len)$/;"	f	signature:(dhcp_t *dp, int tag, void *data, size_t len)
 dhcp_t	include/net/gen/dhcp.h	/^} dhcp_t;$/;"	t	typeref:struct:dhcp
+di	boot/stack_var.tmp.asm	/^di	_edata$/;"	l
 di	include/ibm/int86.h	/^	u16_t	di, _edi[1];$/;"	m	struct:reg86::w	access:public
 di	kernel/protect.c	/^  reg_t di;$/;"	m	struct:tss_s	file:	access:public
 di	kernel/type.h	/^  reg_t di;			\/* di through cx are not accessed in C *\/$/;"	m	struct:stackframe_s	access:public
@@ -13054,7 +13059,7 @@ dir	test/test17.c	/^char *dir[];$/;"	v
 dir	test/test18.c	/^								   "r-x", "rw-", "rwx"}, *dir[8] = {"d---", "d--x", "d-w-", "d-wx", "dr--", "dr-x",$/;"	v
 dir	test/test18.c	/^char *dir[];$/;"	v
 dirbuf	boot/rawfs.c	/^static char dirbuf[MAX_BLOCK_SIZE];	\/* Scratch\/Directory block. *\/$/;"	v	file:
-direct	boot/rawfs.c	42;"	d	file:
+direct	boot/rawfs.c	43;"	d	file:
 direct	include/sys/dir.h	/^struct direct {$/;"	s
 direct::d_ino	include/sys/dir.h	/^  ino_t d_ino;$/;"	m	struct:direct	access:public
 direct::d_name	include/sys/dir.h	/^  char d_name[DIRSIZ];$/;"	m	struct:direct	access:public
@@ -13616,7 +13621,7 @@ driver_nr	servers/fs/param.h	34;"	d
 driver_task	drivers/libdriver/driver.c	/^PUBLIC void driver_task(dp)$/;"	f
 drun	boot/boot.h	/^EXTERN char *drun;	\/* Initial command from DOS command line. *\/$/;"	v
 ds	boot/bootimage.c	/^	u32_t	ds;		\/* Data segment. *\/$/;"	m	struct:process	file:	access:public
-ds	boot/stack_var.tmp.asm	/^ds  LOADSEG$/;"	l
+ds	boot/stack_var.tmp.asm	/^ds  LOADSEG(0x1000)$/;"	l
 ds	include/ibm/int86.h	/^	u16_t	ds, es;			\/* DS and ES real mode segment regs *\/$/;"	m	struct:reg86::w	access:public
 ds	kernel/protect.c	/^  reg_t ds;$/;"	m	struct:tss_s	file:	access:public
 ds	kernel/type.h	/^  u16_t ds;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
@@ -14138,7 +14143,7 @@ errors	lib/ack/libm2/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
 errors	lib/ack/libp/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
 errors	lib/libm2/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
 errors	lib/libp/catch.c	/^} errors[] = {$/;"	v	typeref:struct:errm	file:
-es	boot/stack_var.tmp.asm	/^es	cs+text\/16$/;"	l
+es	boot/stack_var.tmp.asm	/^es	Partition entry$/;"	l
 es	include/ibm/int86.h	/^	u16_t	ds, es;			\/* DS and ES real mode segment regs *\/$/;"	m	struct:reg86::w	access:public
 es	kernel/protect.c	/^  reg_t es;$/;"	m	struct:tss_s	file:	access:public
 es	kernel/type.h	/^  u16_t es;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
@@ -14526,7 +14531,7 @@ execve	lib/posix/_execvp.c	9;"	d	file:
 execvp	lib/posix/_execlp.c	5;"	d	file:
 execvp	lib/posix/_execvp.c	/^int execvp(const char *file, char * const *argv)$/;"	f	signature:(const char *file, char * const *argv)
 execvp	lib/posix/_execvp.c	10;"	d	file:
-exit	boot/boot.c	176;"	d	file:
+exit	boot/boot.c	186;"	d	file:
 exit	boot/boot.h	/^void exit(int code);$/;"	p	signature:(int code)
 exit	boot/mkfile.c	/^void exit(int status);$/;"	p	file:	signature:(int status)
 exit	lib/ansi/exit.c	/^exit(int status)$/;"	f	signature:(int status)
@@ -15070,7 +15075,7 @@ fs_init	servers/fs/main.c	/^PRIVATE void fs_init()$/;"	f
 fs_init_timer	servers/fs/timers.c	/^PUBLIC void fs_init_timer(timer_t *tp)$/;"	f	signature:(timer_t *tp)
 fs_set_timer	servers/fs/timers.c	/^PUBLIC void fs_set_timer(timer_t *tp, int ticks, tmr_func_t watchdog, int arg)$/;"	f	signature:(timer_t *tp, int ticks, tmr_func_t watchdog, int arg)
 fs_timers	servers/fs/timers.c	/^PRIVATE timer_t *fs_timers = NULL;$/;"	v
-fsbuf	boot/rawfs.c	64;"	d	file:
+fsbuf	boot/rawfs.c	65;"	d	file:
 fscanf	lib/stdio/fscanf.c	/^fscanf(FILE *stream, const char *format, ...)$/;"	f	signature:(FILE *stream, const char *format, ...)
 fsdevunmap	include/sys/svrctl.h	/^struct fsdevunmap {$/;"	s
 fsdevunmap::dev	include/sys/svrctl.h	/^	dev_t		dev;		\/* Device to unmap. *\/$/;"	m	struct:fsdevunmap	access:public
@@ -15335,7 +15340,7 @@ get_set_volume	drivers/sb16/sb16_mixer.c	/^PRIVATE int get_set_volume(m_ptr, fla
 get_stack_ptr	servers/pm/utility.c	/^PUBLIC int get_stack_ptr(proc_nr, sp)$/;"	f
 get_super	servers/fs/super.c	/^PUBLIC struct super_block *get_super(dev)$/;"	f
 get_sys_bit	kernel/const.h	42;"	d
-get_tick	boot/boot.c	288;"	d	file:
+get_tick	boot/boot.c	312;"	d	file:
 get_tick	boot/boot.h	/^u32_t get_tick(void);$/;"	p	signature:(void)
 get_time	servers/inet/clock.c	/^PUBLIC time_t get_time()$/;"	f
 get_time	servers/inet/generic/clock.h	/^time_t get_time ARGS(( void ));$/;"	p	signature:( void )
@@ -17204,7 +17209,7 @@ istart	drivers/tty/rs232.c	159;"	d	file:
 istop	drivers/tty/rs232.c	122;"	d	file:
 istop	drivers/tty/rs232.c	161;"	d	file:
 istty	boot/boot.c	/^int istty;$/;"	v
-istty	boot/boot.c	152;"	d	file:
+istty	boot/boot.c	161;"	d	file:
 isupper	include/ctype.h	50;"	d
 isupper	lib/ansi/isupper.c	/^int (isupper)(int c) {$/;"	f	signature:(int c)
 isusern	kernel/proc.h	103;"	d
@@ -18051,7 +18056,7 @@ makelongnames	test/test36.c	/^void makelongnames()$/;"	f
 makelongnames	test/test40.c	/^void makelongnames()$/;"	f
 makenew	lib/curses/newwin.c	/^static WINDOW *makenew(num_lines, num_columns, begy, begx)$/;"	f	file:
 making_image	boot/installboot.c	/^int making_image= 0;$/;"	v
-malloc	boot/boot.c	197;"	d	file:
+malloc	boot/boot.c	207;"	d	file:
 malloc	lib/ansi/malloc.c	/^malloc(size_t size)$/;"	f	signature:(size_t size)
 malloc	lib/editline/editline.h	/^extern char	*malloc();$/;"	p	signature:()
 malloc	lib/sysutil/kmalloc.c	/^void *malloc(size_t size)$/;"	f	signature:(size_t size)
@@ -18244,7 +18249,7 @@ minix386	boot/boothead.s	/^minix386:$/;"	l
 minix386	boot/doshead.s	/^minix386:$/;"	l
 minix86	boot/boothead.s	/^minix86:$/;"	l
 minix86	boot/doshead.s	/^minix86:$/;"	l
-minor_p0s0	boot/boot.c	1031;"	d	file:
+minor_p0s0	boot/boot.c	1117;"	d	file:
 mio_int86	include/ibm/int86.h	/^struct mio_int86 {		\/* MIOCINT86 *\/$/;"	s
 mio_int86::buf	include/ibm/int86.h	/^	void	*buf;			\/* User data buffer *\/$/;"	m	struct:mio_int86	access:public
 mio_int86::len	include/ibm/int86.h	/^	size_t	len;			\/* Size of user buffer *\/$/;"	m	struct:mio_int86	access:public
@@ -18307,7 +18312,7 @@ modeok	boot/boothead.s	/^modeok:	ret$/;"	l
 modeok	boot/doshead.s	/^modeok:	ret$/;"	l
 modf	lib/gnu/ieee_float/modf.c	/^double modf(value, iptr)$/;"	f
 modtime	include/utime.h	/^  time_t modtime;		\/* modification time *\/$/;"	m	struct:utimbuf	access:public
-mon2abs	boot/boot.c	200;"	d	file:
+mon2abs	boot/boot.c	214;"	d	file:
 mon2abs	boot/boot.h	/^u32_t mon2abs(void *ptr);$/;"	p	signature:(void *ptr)
 mon_decimal_point	include/locale.h	/^  char *mon_decimal_point;	\/* ""  *\/$/;"	m	struct:lconv	access:public
 mon_grouping	include/locale.h	/^  char *mon_grouping;		\/* ""  *\/$/;"	m	struct:lconv	access:public
@@ -18326,6 +18331,7 @@ motor_turnoff_sec	include/ibm/diskparm.h	/^  char motor_turnoff_sec;$/;"	m	struc
 mount	lib/posix/_mount.c	/^PUBLIC int mount(special, name, rwflag)$/;"	f
 mount	lib/posix/_mount.c	2;"	d	file:
 mounted	servers/fs/super.c	/^PUBLIC int mounted(rip)$/;"	f
+mov	boot/stack_var.tmp.asm	/^mov	dx, cs$/;"	l
 mov	lib/i86/em/em_trp.s	/^mov .M+10,bx$/;"	l
 mov	lib/i86/em/em_trp.s	/^mov .M+2,#4$/;"	l
 mov	lib/i86/em/em_trp.s	/^mov .M+4,bx$/;"	l
@@ -18850,7 +18856,7 @@ nplus	lib/regex/regex2.h	/^	sopno nplus;		\/* how deep does it nest +s? *\/$/;"	
 nr_buf2	servers/fs/cache2.c	/^PRIVATE unsigned nr_buf2;		\/* actual cache size *\/$/;"	v
 nr_bufs	servers/inet/minix3/queryparam.c	/^size_t nr_bufs;$/;"	v
 nr_cons	drivers/tty/console.c	/^PRIVATE int nr_cons= 1;		\/* actual number of consoles *\/$/;"	v
-nr_dzones	boot/rawfs.c	/^static unsigned nr_dzones;	\/* Fill these in after reading superblock. *\/$/;"	v	file:
+nr_dzones	boot/rawfs.c	/^static unsigned nr_dzones;	$/;"	v	file:
 nr_in_use	servers/ds/store.c	/^PRIVATE int nr_in_use;$/;"	v
 nr_in_use	servers/rs/manager.c	/^int nr_in_use; 					\/* number of services *\/$/;"	v
 nr_indirects	boot/rawfs.c	/^static unsigned nr_indirects;$/;"	v	file:
@@ -18891,7 +18897,7 @@ ntostr	drivers/libpci/pci.c	/^PRIVATE void ntostr(n, str, end)$/;"	f
 ntstr	lib/ansi/misc.c	/^static char ntstr[TZ_LEN + 1] = "GMT";	\/* string for normal time *\/$/;"	v	file:
 nulch	boot/boothead.s	/^nulch:	ret$/;"	l
 nulch	boot/doshead.s	/^nulch:	ret$/;"	l
-null	boot/boot.c	649;"	d	file:
+null	boot/boot.c	704;"	d	file:
 nuls	lib/regex/regcomp.c	/^static char nuls[10];		\/* place to point scanner in event of error *\/$/;"	v	file:
 num_down	drivers/tty/keyboard.c	/^PRIVATE int num_down;		\/* num lock key depressed *\/$/;"	v
 num_file	lib/zlib-1.2.3/contrib/minizip/unzip.c	/^    uLong num_file;             \/* number of the current file in the zipfile*\/$/;"	m	struct:__anon63	file:	access:public
@@ -19052,7 +19058,7 @@ obuf	drivers/tty/rs232.c	/^  char obuf[RS_OBUFSIZE];	\/* output buffer *\/$/;"	m
 ocount	drivers/tty/pty.c	/^  int		ocount;		\/* # characters in the buffer *\/$/;"	m	struct:pty	file:	access:public
 ocount	drivers/tty/rs232.c	/^  int ocount;			\/* number of bytes in the output buffer *\/$/;"	m	struct:rs232	file:	access:public
 off	boot/boot.c	/^static void off(void)$/;"	f	file:	signature:(void)
-off	boot/boot.c	293;"	d	file:
+off	boot/boot.c	317;"	d	file:
 off	include/ibm/int86.h	/^	u16_t	off, seg;		\/* Address of kernel buffer *\/$/;"	m	struct:mio_int86	access:public
 off	include/ibm/int86.h	/^	u16_t	off, seg;		\/* Driver vector (input only) *\/$/;"	m	struct:reg86::w	access:public
 off_t	include/sys/types.h	/^typedef unsigned long  off_t;	   \/* offset within a file *\/$/;"	t
@@ -20314,7 +20320,7 @@ putc	boot/boothead.s	/^putc:	movb	ah, #0x0E	! Print character in teletype mode$/
 putc	boot/doshead.s	/^putc:	movb	ah, 0x0E	! Print character in teletype mode$/;"	l
 putc	include/stdio.h	132;"	d
 putc	lib/stdio/putc.c	/^(putc)(int c, FILE *stream)$/;"	f	signature:(int c, FILE *stream)
-putch	boot/boot.c	224;"	d	file:
+putch	boot/boot.c	242;"	d	file:
 putch	boot/boot.h	/^void putch(int c);$/;"	p	signature:(int c)
 putch	boot/jumpboot.s	/^putch:	movb	ah, #0x0E	! Print character in teletype mode$/;"	l
 putchar	include/stdio.h	129;"	d
@@ -20384,7 +20390,7 @@ queryvars::r	servers/inet/qp.c	/^	int r;$/;"	m	struct:queryvars	file:	access:pub
 queryvars::valbuf	servers/inet/qp.c	/^	char parbuf[256], valbuf[256];$/;"	m	struct:queryvars	file:	access:public
 queryvars::value	servers/inet/qp.c	/^	char *param, *value;$/;"	m	struct:queryvars	file:	access:public
 quit	boot/boot.c	/^void quit(int status)$/;"	f	signature:(int status)
-quit	boot/boothead.s	/^quit:	mov	ax, #any_key$/;"	l
+quit	boot/boothead.s	/^quit:$/;"	l
 quit	boot/doshead.s	/^quit:					! exit(1)$/;"	l
 quit	lib/zlib-1.2.3/examples/fitblk.c	/^local void quit(char *why)$/;"	f	signature:(char *why)
 quit	test/common.c	/^void quit()$/;"	f
@@ -20753,13 +20759,13 @@ read_write	servers/fs/read.c	/^PUBLIC int read_write(rw_flag)$/;"	f
 readblock	boot/boot.c	/^void readblock(off_t blk, char *buf, int block_size)$/;"	f	signature:(off_t blk, char *buf, int block_size)
 readblock	boot/boot.h	/^void readblock(off_t, char *, int);$/;"	p	signature:(off_t, char *, int)
 readblock	boot/installboot.c	/^void readblock(off_t blk, char *buf, int block_size)$/;"	f	signature:(off_t blk, char *buf, int block_size)
-readblock	boot/rawfs.c	/^void readblock(off_t blockno, char *buf, int);$/;"	p	file:	signature:(off_t blockno, char *buf, int)
+readblock	boot/rawfs.c	/^void readblock(off_t blockno, char *buf, int); \/* 在boot.c中实现! *\/ $/;"	p	file:	signature:(off_t blockno, char *buf, int)
 readdir	lib/other/_seekdir.c	7;"	d	file:
 readdir	lib/posix/_getcwd.c	10;"	d	file:
 readdir	lib/posix/_readdir.c	/^struct dirent *readdir(DIR *dp)$/;"	f	signature:(DIR *dp)
 readdir	lib/posix/_readdir.c	7;"	d	file:
 readerr	boot/boot.c	/^void readerr(off_t sec, int err)	{ rwerr("Read", sec, err); }$/;"	f	signature:(off_t sec, int err)
-readerr	boot/boot.c	222;"	d	file:
+readerr	boot/boot.c	240;"	d	file:
 readerr	boot/boot.h	/^void readerr(off_t sec, int err);$/;"	p	signature:(off_t sec, int err)
 readfds	servers/fs/select.c	/^	fd_set readfds, writefds, errorfds;$/;"	m	struct:selectentry	file:	access:public
 readin	lib/zlib-1.2.3/examples/gzappend.c	/^local int readin(file *in)$/;"	f	signature:(file *in)
@@ -20768,8 +20774,8 @@ readline	lib/editline/editline.c	/^readline(prompt)$/;"	f
 readline	lib/editline/testit.c	/^extern char	*readline();$/;"	p	file:
 readlink	lib/posix/readlink.c	/^int readlink(const char *path, char *buf, int bufsiz)$/;"	f	signature:(const char *path, char *buf, int bufsiz)
 readmore	lib/zlib-1.2.3/examples/gzappend.c	/^local int readmore(file *in)$/;"	f	signature:(file *in)
-readsectors	boot/boot.c	220;"	d	file:
-readsectors	boot/boot.h	/^int readsectors(u32_t bufaddr, u32_t sector, U8_t count);$/;"	p	signature:(u32_t bufaddr, u32_t sector, U8_t count)
+readsectors	boot/boot.c	238;"	d	file:
+readsectors	boot/boot.h	/^int readsectors(u32_t bufaddr, u32_t sector, U8_t count); \/* 在 boothead.s中实现 *\/ $/;"	p	signature:(u32_t bufaddr, u32_t sector, U8_t count)
 ready_errorfds	servers/fs/select.c	/^	fd_set ready_readfds, ready_writefds, ready_errorfds;$/;"	m	struct:selectentry	file:	access:public
 ready_readfds	servers/fs/select.c	/^	fd_set ready_readfds, ready_writefds, ready_errorfds;$/;"	m	struct:selectentry	file:	access:public
 ready_writefds	servers/fs/select.c	/^	fd_set ready_readfds, ready_writefds, ready_errorfds;$/;"	m	struct:selectentry	file:	access:public
@@ -20777,7 +20783,7 @@ real2prot	boot/boothead.s	/^real2prot:$/;"	l
 real2prot	boot/doshead.s	/^real2prot:$/;"	l
 real_grp_id	servers/fs/param.h	14;"	d
 real_user_id	servers/fs/param.h	38;"	d
-realloc	boot/boot.c	198;"	d	file:
+realloc	boot/boot.c	208;"	d	file:
 realloc	lib/ansi/malloc.c	/^realloc(void *oldp, size_t size)$/;"	f	signature:(void *oldp, size_t size)
 realloc	lib/editline/editline.h	/^extern char	*realloc();$/;"	p	signature:()
 realloc	lib/sysutil/kmalloc.c	/^void *realloc(void *op, size_t size)$/;"	f	signature:(void *op, size_t size)
@@ -20785,7 +20791,7 @@ realtime	kernel/clock.c	/^PRIVATE clock_t realtime;		\/* real time clock *\/$/;"
 rear	servers/fs/buf.h	/^EXTERN struct buf *rear;	\/* points to most recently used free block *\/$/;"	v	typeref:struct:buf
 reassemble	servers/inet/generic/ip_read.c	/^FORWARD acc_t *reassemble ARGS(( ip_port_t *ip_port, acc_t *pack, $/;"	p	file:	signature:( ip_port_t *ip_port, acc_t *pack, ip_hdr_t *ip_hdr )
 reassemble	servers/inet/generic/ip_read.c	/^PRIVATE acc_t *reassemble (ip_port, pack, pack_hdr)$/;"	f
-reboot	boot/boothead.s	/^reboot:	call	dev_reset$/;"	l
+reboot	boot/boothead.s	/^reboot:	$/;"	l
 reboot	boot/masterboot.s	/^reboot:$/;"	l
 reboot	boot/masterboot_nal.s	/^reboot:$/;"	l
 reboot	lib/other/_reboot.c	/^int reboot(int how, ...)$/;"	f	signature:(int how, ...)
@@ -20958,7 +20964,7 @@ relocking	include/minix/type.h	/^  int relocking;		\/* relocking check (for debu
 rem	include/stdlib.h	/^typedef struct { int quot, rem; } div_t;$/;"	m	struct:__anon13	access:public
 rem	include/stdlib.h	/^typedef struct { long quot, rem; } ldiv_t;$/;"	m	struct:__anon14	access:public
 rem64u	include/minix/u64.h	/^unsigned rem64u(u64_t i, unsigned j);$/;"	p	signature:(u64_t i, unsigned j)
-rem_part	boot/boot.h	/^EXTERN vector rem_part;		\/* Boot partition table entry. *\/$/;"	v
+rem_part	boot/boot.h	/^EXTERN vector rem_part; \/* Boot partition table entry. *\/ \/* 保存分区表入口地址 *\/$/;"	v
 rem_part	include/tools.h	/^EXTERN vector rem_part;		\/* boot partition table entry *\/$/;"	v
 remain_fill	kernel/klib386.s	/^remain_fill:$/;"	l
 remap_first	drivers/bios_wini/bios_wini.c	/^PRIVATE int remap_first = 0;		\/* Remap drives for CD HD emulation *\/$/;"	v
@@ -21431,7 +21437,7 @@ s_ipc_from	kernel/priv.h	/^  sys_map_t s_ipc_from;		\/* allowed callers to recei
 s_ipc_to	kernel/priv.h	/^  sys_map_t s_ipc_to;		\/* allowed destination processes *\/$/;"	m	struct:priv	access:public
 s_isearch	servers/fs/super.h	/^  bit_t s_isearch;		\/* inodes below this bit number are in use *\/$/;"	m	struct:super_block	access:public
 s_isup	servers/fs/super.h	/^  struct inode *s_isup;		\/* inode for root dir of mounted file sys *\/$/;"	m	struct:super_block	typeref:struct:super_block::inode	access:public
-s_log_zone_size	boot/rawfs.c	49;"	d	file:
+s_log_zone_size	boot/rawfs.c	50;"	d	file:
 s_log_zone_size	servers/fs/super.h	/^  short s_log_zone_size;	\/* log2 of blocks\/zone *\/$/;"	m	struct:super_block	access:public
 s_magic	servers/fs/super.h	/^  short s_magic;		\/* magic number to recognize super-blocks *\/$/;"	m	struct:super_block	access:public
 s_max_size	servers/fs/super.h	/^  off_t s_max_size;		\/* maximum file size on this device *\/$/;"	m	struct:super_block	access:public
@@ -21648,7 +21654,7 @@ scr_init	drivers/tty/console.c	/^PUBLIC void scr_init(tp)$/;"	f
 scr_lines	drivers/tty/console.c	/^PRIVATE unsigned scr_lines;	\/* # lines on the screen *\/$/;"	v
 scr_size	drivers/tty/console.c	/^PRIVATE unsigned scr_size;	\/* # characters on the screen *\/$/;"	v
 scr_width	drivers/tty/console.c	/^PRIVATE unsigned scr_width;	\/* # characters on a line *\/$/;"	v
-scratch	boot/rawfs.c	59;"	d	file:
+scratch	boot/rawfs.c	60;"	d	file:
 scroll	lib/curses/winscrol.c	/^void scroll(win)$/;"	f
 scroll_down	drivers/tty/keyboard.c	/^PRIVATE int scroll_down;	\/* scroll lock key depressed *\/$/;"	v
 scroll_screen	drivers/tty/console.c	/^PRIVATE void scroll_screen(cons, dir)$/;"	f
@@ -22192,7 +22198,6 @@ sort_dists	servers/inet/generic/ipr.c	/^FORWARD oroute_t *sort_dists ARGS(( orou
 sort_dists	servers/inet/generic/ipr.c	/^PRIVATE oroute_t *sort_dists(oroute)$/;"	f
 sort_gws	servers/inet/generic/ipr.c	/^FORWARD oroute_t *sort_gws ARGS(( oroute_t *oroute ));$/;"	p	file:	signature:( oroute_t *oroute )
 sort_gws	servers/inet/generic/ipr.c	/^PRIVATE oroute_t *sort_gws(oroute)$/;"	f
-sp	boot/stack_var.tmp.asm	/^sp  a_total$/;"	l
 sp	kernel/protect.c	/^  reg_t sp;$/;"	m	struct:tss_s	file:	access:public
 sp	kernel/type.h	/^  reg_t sp;                     \/*  | *\/$/;"	m	struct:stackframe_s	access:public
 sp	lib/other/fsversion.c	/^static struct super_block super, *sp;$/;"	v	typeref:struct:	file:
@@ -24226,14 +24231,14 @@ underflow	lib/zlib-1.2.3/contrib/iostream3/zfstream.cc	/^gzfilebuf::underflow()$
 underflow	lib/zlib-1.2.3/contrib/iostream3/zfstream.h	/^  underflow();$/;"	p	class:gzfilebuf	access:protected	signature:()
 unequal	lib/i86/string/_strncmp.s	/^unequal:$/;"	l
 ungetc	lib/stdio/ungetc.c	/^ungetc(int ch, FILE *stream)$/;"	f	signature:(int ch, FILE *stream)
-ungetch	boot/boot.c	286;"	d	file:
+ungetch	boot/boot.c	310;"	d	file:
 ungetch	boot/boot.h	/^void ungetch(int c);$/;"	p	signature:(int c)
 unhash_fd	servers/inet/generic/eth.c	/^FORWARD void unhash_fd ARGS(( eth_fd_t *eth_fd ));$/;"	p	file:	signature:( eth_fd_t *eth_fd )
 unhash_fd	servers/inet/generic/eth.c	/^PRIVATE void unhash_fd(eth_fd)$/;"	f
 unhash_fd	servers/inet/generic/udp.c	/^FORWARD void unhash_fd ARGS(( udp_fd_t *udp_fd ));$/;"	p	file:	signature:( udp_fd_t *udp_fd )
 unhash_fd	servers/inet/generic/udp.c	/^PRIVATE void unhash_fd(udp_fd)$/;"	f
 unix_err	boot/boot.c	/^char *unix_err(int err)$/;"	f	signature:(int err)
-unix_err	boot/boot.c	225;"	d	file:
+unix_err	boot/boot.c	243;"	d	file:
 unix_err	boot/boot.h	/^char *unix_err(int err);$/;"	p	signature:(int err)
 unknown	lib/ansi/errlist.c	/^static const char unknown[] = "Unknown error";$/;"	v	file:
 unlink	lib/posix/_unlink.c	/^PUBLIC int unlink(name)$/;"	f
@@ -24839,8 +24844,8 @@ write_table	lib/zlib-1.2.3/crc32.c	/^local void write_table(out, table)$/;"	f
 writeblock	boot/installboot.c	/^void writeblock(off_t blk, char *buf, int block_size)$/;"	f	signature:(off_t blk, char *buf, int block_size)
 writefds	servers/fs/select.c	/^	fd_set readfds, writefds, errorfds;$/;"	m	struct:selectentry	file:	access:public
 writerr	boot/boot.c	/^void writerr(off_t sec, int err)	{ rwerr("Write", sec, err); }$/;"	f	signature:(off_t sec, int err)
-writerr	boot/boot.c	223;"	d	file:
-writesectors	boot/boot.c	221;"	d	file:
+writerr	boot/boot.c	241;"	d	file:
+writesectors	boot/boot.c	239;"	d	file:
 writesectors	boot/boot.h	/^int writesectors(u32_t bufaddr, u32_t sector, U8_t count);$/;"	p	signature:(u32_t bufaddr, u32_t sector, U8_t count)
 writev	lib/other/writev.c	/^ssize_t writev(int fildes, const struct iovec *iov, int iovcnt)$/;"	f	signature:(int fildes, const struct iovec *iov, int iovcnt)
 writing	drivers/printer/printer.c	/^PRIVATE int writing;		\/* nonzero while write is in progress *\/$/;"	v
@@ -25047,7 +25052,7 @@ zmemzero	lib/zlib-1.2.3/zutil.h	/^   extern void zmemzero OF((Bytef* dest, uInt 
 zmemzero	lib/zlib-1.2.3/zutil.h	228;"	d
 zmemzero	lib/zlib-1.2.3/zutil.h	232;"	d
 zone1_t	include/sys/types.h	/^typedef unsigned short zone1_t;	   \/* zone number for V1 file systems *\/$/;"	t
-zone_shift	boot/rawfs.c	66;"	d	file:
+zone_shift	boot/rawfs.c	67;"	d	file:
 zone_t	include/sys/types.h	/^typedef unsigned long zone_t;	   \/* zone number *\/$/;"	t
 zopen_file	lib/zlib-1.2.3/contrib/minizip/ioapi.h	/^    open_file_func      zopen_file;$/;"	m	struct:zlib_filefunc_def_s	access:public
 zpull	lib/zlib-1.2.3/examples/gzjoin.c	/^local void zpull(z_streamp strm, bin *in)$/;"	f	signature:(z_streamp strm, bin *in)

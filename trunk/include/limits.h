@@ -75,8 +75,8 @@
 #endif
 #define MAX_CANON          255	/* size of the canonical input queue */
 #define MAX_INPUT          255	/* size of the type-ahead buffer */
-#define NAME_MAX        DIRSIZ	/* # chars in a file name */
-#define PATH_MAX           255	/* # chars in a path name */
+#define NAME_MAX        DIRSIZ	/* # chars in a file name */ /* ... */ 
+#define PATH_MAX           255	/* # chars in a path name */ /* 绝对路径的最大长度 */
 #define PIPE_BUF          7168	/* # bytes in atomic write to a pipe */
 #define STREAM_MAX          20	/* must be the same as FOPEN_MAX in stdio.h */
 #define TZNAME_MAX           3	/* maximum bytes in a time zone name is 3 */
