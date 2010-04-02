@@ -60,10 +60,11 @@ boot:
 	mov	ax, #LOADSEG
 	mov	ds, ax		! ds = header
 
-	movb	al, a_flags
+	movb	al, a_flags ! al等于a_flags的地址还是等于a_flags的值
 	testb	al, #A_SEP	! Separate I&D?
 	jnz	sepID
-comID:	xor	ax, ax
+comID:
+	xor	ax, ax
 	xchg	ax, a_text	! No text
 	add	a_data, ax	! Treat all text as data
 sepID:
@@ -88,7 +89,7 @@ sepID:
 ! Clear bss
 ! ! _edata and _end are variables that are set by the compiler.  _edata is the
 ! ! offset address of the end of the data and_end is the offset address of the end
-! ! of the bss. 
+! ! of the bss.
 	xor	ax, ax		! Zero
 	mov	di, #_edata	! Start of bss is at end of data
 	mov	cx, #_end	! End of bss (begin of heap)
@@ -100,12 +101,17 @@ sepID:
 ! Copy primary boot parameters to variables.  (Can do this now that bss is
 ! cleared and may be written into).
 	xorb	dh, dh
-	mov	_device, dx	! Boot device (probably 0x00 or 0x80)
+	mov	device, dx	! Boot device (probably 0x00 or 0x80)
 	mov	_rem_part+0, si	! Remote partition table offset
 	pop	_rem_part+2	! and segment (saved es)
 
 ! Remember the current video mode for restoration on exit.
 	movb	ah, #0x0F	! Get current video mode
+	! ! INT 10 - VIDEO - GET CURRENT VIDEO MODE
+		! ! AH = 0Fh
+	! ! Return: AH = number of character columns
+		! ! AL = display mode (see #00010 at AH=00h)
+		! ! BH = active page (see AH=05h)
 	int	0x10
 	andb	al, #0x7F	! Mask off bit 7 (no blanking)
 	movb	old_vid_mode, al
@@ -138,35 +144,50 @@ sepID:
 ! mem[0] = low memory, mem[1] = memory between 1M and 16M, mem[2] = memory
 ! above 16M.  Last two coalesced into mem[1] if adjacent.
 	mov	di, #_mem	! di = memory list
+! ! INT 12 - BIOS - GET MEMORY SIZE
+! ! Return: AX = kilobytes of contiguous memory starting at absolute address 00000h
 	int	0x12		! Returns low memory size (in K) in ax
-	mul	c1024
+	mul	c1024		! dx:ax=ax*c1024
+					! mem: 全局变量, 被初始化为0. 即: mem[0].base=0x0000
 	mov	4(di), ax	! mem[0].size = low memory size in bytes
 	mov	6(di), dx
-	call	_getprocessor
+	call	_getprocessor ! @@@@@ 
 	cmp	ax, #286	! Only 286s and above have extended memory
 	jb	no_ext
 	cmp	ax, #486	! Assume 486s were the first to have >64M
 	jb	small_ext	! (It helps to be paranoid when using the BIOS)
 big_ext:
 	mov	ax, #0xE801	! Code for get memory size for >64M
+	! ! INT 15 - Phoenix BIOS v4.0 - GET MEMORY SIZE FOR >64M CONFIGURATIONS
+		! ! AX = E801h
+	! ! Return: CF clear if successful ! ! CF set on error
+			! ! AX = extended memory between 1M and 16M, in K (max 3C00h = 15MB)
+			! ! BX = extended memory above 16M, in 64K blocks
+			! ! CX = configured memory 1M to 16M, in K
+			! ! DX = configured memory above 16M, in 64K blocks
 	int	0x15		! ax = mem at 1M per 1K, bx = mem at 16M per 64K
 	jnc	got_ext
 small_ext:
 	movb	ah, #0x88	! Code for get extended memory size
 	clc			! Carry will stay clear if call exists
+	! ! INT 15 - SYSTEM - GET EXTENDED MEMORY SIZE (286+)
+		! ! AH = 88h
+	! ! Return: CF clear if successful CF set on error
+			! ! AX = number of contiguous KB starting at absolute address 100000h
+			! ! AH = status
 	int	0x15		! Returns size (in K) in ax for AT's
 	jc	no_ext
 	test	ax, ax		! An AT with no extended memory?
 	jz	no_ext
-	xor	bx, bx		! bx = mem above 16M per 64K = 0
+	xor	bx, bx		! bx = mem above 16M per 64K = 0 ! 使得在(^1^)处可以跳转
 got_ext:
 	mov	cx, ax		! cx = copy of ext mem at 1M
-	mov	10(di), #0x0010	! mem[1].base = 0x00100000 (1M)
-	mul	c1024
+	mov	10(di), #0x0010	! mem[1].base = 0x00100000 (1M).(0x00100000 bites = 1M)
+	mul	c1024		! dx:ax=ax*c1024
 	mov	12(di), ax	! mem[1].size = "ext mem at 1M" * 1024
 	mov	14(di), dx
 	test	bx, bx
-	jz	no_ext		! No more ext mem above 16M?
+	jz	no_ext		! No more ext mem above 16M? ! (^1^)
 	cmp	cx, #15*1024	! Chunks adjacent? (precisely 15M at 1M?)
 	je	adj_ext
 	mov	18(di), #0x0100	! mem[2].base = 0x01000000 (16M)
@@ -178,6 +199,7 @@ no_ext:
 
 
 ! Time to switch to a higher level language (not much higher)
+	! call	boot
 	call	_boot
 
 ! void ..exit(int status)
@@ -189,14 +211,22 @@ ___exit:
 	mov	bx, sp
 	cmp	2(bx), #0		! Good exit status?
 	jz	reboot
-quit:	mov	ax, #any_key
+quit:
+	mov		ax, #any_key
 	push	ax
 	call	_printf
 	xorb	ah, ah			! Read character from keyboard
 	int	0x16
-reboot:	call	dev_reset
+reboot:	
+	call	dev_reset
 	call	restore_video
+! ! INT 19 - SYSTEM - BOOTSTRAP LOADER
+! ! Desc:	This interrupt reboots the system without clearing memory or restoring
+	  ! ! interrupt vectors.  Because interrupt vectors are preserved, this
+	  ! ! interrupt usually causes a system hang if any TSRs have hooked
+	  ! ! vectors from 00h through 1Ch, particularly INT 08.
 	int	0x19			! Reboot the system
+
 .data
 any_key:
 	.ascii	"\nHit any key to reboot\n\0"
@@ -221,34 +251,56 @@ _vec2abs:
 	mov	dx, 2(bx)	! dx:ax vector
 	!jmp	seg2abs		! Translate
 
+! ! dx:ax => dx-ax(dx*16+ax)
 seg2abs:			! Translate dx:ax to the 32 bit address dx-ax
 	push	cx
 	movb	ch, dh
 	movb	cl, #4
-	shl	dx, cl
+	shl		dx, cl
 	shrb	ch, cl		! ch-dx = dx << 4
-	add	ax, dx
+	add		ax, dx		!
+	! ! adc - add with carry
+        ! ! sums two binary operands placing the result in the destination.
+        ! ! if cf is set, a 1 is added to the destination.
 	adcb	ch, #0		! ch-ax = ch-dx + ax
 	movb	dl, ch
 	xorb	dh, dh		! dx-ax = ch-ax
-	pop	cx
+	pop		cx
 	ret
 
+! ! dx-ax => dx:ax(dx=dx-ax/16, ax=余数)
 abs2seg:			! Translate the 32 bit address dx-ax to dx:ax
 	push	cx
 	movb	ch, dl
-	mov	dx, ax		! ch-dx = dx-ax
-	and	ax, #0x000F	! Offset in ax
+	mov		dx, ax		! ch-dx = dx-ax
+	and		ax, #0x000F	! Offset in ax
 	movb	cl, #4
-	shr	dx, cl
+	shr		dx, cl
 	shlb	ch, cl
-	orb	dh, ch		! dx = ch-dx >> 4
-	pop	cx
+	orb		dh, ch		! dx = ch-dx >> 4
+	pop		cx
 	ret
 
 ! void raw_copy(u32_t dstaddr, u32_t srcaddr, u32_t count)
 !	Copy count bytes from srcaddr to dstaddr.  Don't do overlaps.
 !	Also handles copying words to or from extended memory.
+    ! |         |
+ ! 16 |---------|
+    ! | count   |
+ ! 12 |---------|
+    ! | srcaddr |
+  ! 8 |---------|
+    ! | dstaddr |	 栈结构是这样吗??????
+  ! 4 |---------|
+    ! | pc      | *
+  ! 2 |---------|
+    ! | bp      |
+  ! 0 |---------| bp
+    ! | si      |
+    ! |---------|
+    ! | di      |
+    ! |---------|
+    ! |         |
 .define _raw_copy
 _raw_copy:
 	push	bp
@@ -262,7 +314,8 @@ copy:
 	jcxz	copydone	! Count is zero, end copy
 	cmp	cx, #0xFFF0
 	jb	smallcopy
-bigcopy:mov	cx, #0xFFF0	! Don't copy more than about 64K at once
+bigcopy:
+	mov	cx, #0xFFF0	! Don't copy more than about 64K at once
 smallcopy:
 	push	cx		! Save copying count
 	mov	ax, 4(bp)
@@ -363,8 +416,10 @@ _relocate:
 	call	seg2abs
 	mov	_daddr+0, ax
 	mov	_daddr+2, dx	! New data address
-	push	cx		! New text segment
+	push	cx		! New text segment ! 跳到了新的段! 
 	push	bx		! Return offset of this function
+	! ! far returns pop the ip followed by the cs, while near
+	! ! returns pop only the ip register.
 	retf			! Relocate
 
 ! void *brk(void *addr)
@@ -503,6 +558,12 @@ dev_reset:
 	jge	0f
 	xorb	ah, ah		! Reset (ah = 0)
 	movb	dl, #0x80	! All disks
+! ! INT 13 - DISK - RESET DISK SYSTEM
+	! ! AH = 00h
+	! ! DL = drive (if bit 7 is set both hard disks and floppy disks reset)
+! ! Return: AH = status (see #00234)
+	! ! CF clear if successful (returned AH=00h)
+	! ! CF set on error
 	int	0x13
 	movb	dev_state, #0	! State is "closed"
 0:	ret
@@ -1505,6 +1566,8 @@ p_mcs_desc:
 	.data1	UNSET, 0x9A, 0x00, 0x00
 
 .bss
+    ! ! .comm VAR NUM:
+	! ! Define a variable VAR and initialized it to NUM bytes zero.
 	.comm	old_vid_mode, 2	! Video mode at startup
 	.comm	cur_vid_mode, 2	! Current video mode
 	.comm	dev_state, 2	! Device state: reset (-1), closed (0), open (1)

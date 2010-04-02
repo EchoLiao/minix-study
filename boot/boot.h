@@ -24,7 +24,7 @@
 				 * play with.
 				 */
 #if BIOS
-#define MSEC_PER_TICK	  55	/* Clock does 18.2 ticks per second. */
+#define MSEC_PER_TICK 55 /* Clock does 18.2 ticks per second. */ /* 每一clock用时约55毫秒 */
 #define TICKS_PER_DAY 0x1800B0L	/* After 24 hours it wraps. */
 #endif
 
@@ -52,11 +52,20 @@ typedef struct vector {		/* 8086 vector */
 	u16_t	segment;
 } vector;
 
-EXTERN vector rem_part;		/* Boot partition table entry. */
+	/* mov	_rem_part+0, si	! Remote partition table offset */
+	/* pop	_rem_part+2	! and segment (saved es)            */
+EXTERN vector rem_part; /* Boot partition table entry. */ /* 保存分区表入口地址 */
 
+	/* mov	_caddr+0, ax */
+	/* mov	_caddr+2, dx */
+	/* mov	_daddr+0, ax */
+	/* mov	_daddr+2, dx */
 EXTERN u32_t caddr, daddr;	/* Code and data address of the boot program. */
+	/* mov	_runsize+0, ax                                */
+	/* mov	_runsize+2, dx	! 32 bit size of this process */
 EXTERN u32_t runsize;		/* Size of this program. */
 
+	/* mov	_device, dx	! Boot device (probably 0x00 or 0x80) */
 EXTERN u16_t device;		/* Drive being booted from. */
 
 typedef struct {		/* One chunk of free memory. */
@@ -64,7 +73,14 @@ typedef struct {		/* One chunk of free memory. */
 	u32_t	size;		/* Number of bytes. */
 } memory;
 
+/* ! mem[0] = low memory, mem[1] = memory between 1M and 16M, mem[2] = memory */
+/* ! above 16M.  Last two coalesced into mem[1] if adjacent.                  */
+	/* mov	di, #mem	! di = memory list */
 EXTERN memory mem[3];		/* List of available memory. */
+
+
+/* ====================================================================== */
+
 EXTERN int mon_return;		/* Monitor stays in memory? */
 
 typedef struct bios_env
@@ -97,7 +113,7 @@ int dev_open(void), dev_close(void);
 			/* Open device and determine params / close device. */
 int dev_boundary(u32_t sector);
 			/* True if sector is on a track boundary. */
-int readsectors(u32_t bufaddr, u32_t sector, U8_t count);
+int readsectors(u32_t bufaddr, u32_t sector, U8_t count); /* 在 boothead.s中实现 */ 
 			/* Read 1 or more sectors from "device". */
 int writesectors(u32_t bufaddr, u32_t sector, U8_t count);
 			/* Write 1 or more sectors to "device". */
@@ -139,14 +155,16 @@ void int15(bios_env_t *);
 /* Shared between boot.c and bootimage.c: */
 
 /* Sticky attributes. */
+/* "不可变变量或函数标志" */
 #define E_SPECIAL	0x01	/* These are known to the program. */
 #define E_DEV		0x02	/* The value is a device name. */
 #define E_RESERVED	0x04	/* May not be set by user, e.g. 'boot' */
 #define E_STICKY	0x07	/* Don't go once set. */
 
 /* Volatile attributes. */
-#define E_VAR		0x08	/* Variable */
-#define E_FUNCTION	0x10	/* Function definition. */
+/* "可变变量或函数标志" */
+#define E_VAR		0x08	/* Variable */ /* 变量 */ 
+#define E_FUNCTION	0x10	/* Function definition. */ /* 函数 */ 
 
 /* Variables, functions, and commands. */
 typedef struct environment {

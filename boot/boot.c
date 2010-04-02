@@ -133,17 +133,26 @@ void rwerr(char *rw, off_t sec, int err)
 void readerr(off_t sec, int err)	{ rwerr("Read", sec, err); }
 void writerr(off_t sec, int err)	{ rwerr("Write", sec, err); }
 
+/*==========================================================================*
+ *@Description:  读取一个block
+ *
+ *@Param blk		要读取的这一个block的偏移位置(单位为block)
+ *@Param buf		读取保存到buf
+ *@Param block_size	1个block的大小, 1(block) = block_size(KB)
+ *==========================================================================*/
 void readblock(off_t blk, char *buf, int block_size)
 /* Read blocks for the rawfs package. */
 {
 	int r;
-	u32_t sec= lowsec + blk * RATIO(block_size);
+	/* readblock(1, scratch, 1024); */
+	u32_t sec= lowsec + blk * RATIO(block_size); /* 从第几个扇区开始读取? */ 
 
 	if(!block_size) {
 		printf("block_size 0\n");
 		exit(1);
 	}
 
+/* int readsectors(u32_t bufaddr, u32_t sector, U8_t count); [>在 boothead.s中实现<]  */
 	if ((r= readsectors(mon2abs(buf), sec, 1 * RATIO(block_size))) != 0) {
 		readerr(sec, r); exit(1);
 	}
@@ -165,6 +174,7 @@ struct biosdev {
 } bootdev;
 
 struct termios termbuf;
+/* #if UNIX 之间 */
 int istty;
 
 void quit(int status)
@@ -197,6 +207,10 @@ void *alloc(void *m, size_t n)
 #define malloc(n)	alloc(nil, n)
 #define realloc(m, n)	alloc(m, n)
 
+/* 这里的mon2abs的作用: 注释掉所有对boot.h中函数u32_t mon2abs(void *ptr)的调用,
+ * 而变为((void*) (addr)). 原因见<<宏定义和函数可以同名吗>> */
+/* 当然, 因为这些宏定义被包含在#if UNIX ... #endif之中, 所以只有UNIX宏被定义了这
+ * 些宏的作用才生效! */
 #define mon2abs(addr)	((void *) (addr))
 
 int rwsectors(int rw, void *addr, u32_t sec, int nsec)
@@ -217,6 +231,10 @@ int rwsectors(int rw, void *addr, u32_t sec, int nsec)
 	return 0;
 }
 
+/* 这里的readsectors等宏的作用: 注释掉所有对boot.h中函数readsectors的调用,
+ * 而变为((void*) (addr)). 原因见<<宏定义和函数可以同名吗>> */
+/* 当然, 因为这些宏定义被包含在#if UNIX ... #endif之中, 所以只有UNIX宏被定义了这
+ * 些宏的作用才生效! */
 #define readsectors(a, s, n)	 rwsectors(0, (a), (s), (n))
 #define writesectors(a, s, n)	 rwsectors(1, (a), (s), (n))
 #define readerr(sec, err)	(errno= (err), report(bootdev.name))
@@ -246,7 +264,7 @@ void trap(int sig)
 
 int escape(void)
 {
-	if (trapsig == SIGINT) {
+	if (trapsig == SIGINT) { /* ????? */ 
 		trapsig= 0;
 		return 1;
 	}
@@ -283,6 +301,12 @@ int getch(void)
 	}
 }
 
+/* 这里的ungetch等宏的作用: 注释掉所有对boot.h中函数ungetch的调用,
+ * 而变为((void*) (addr)). 原因见<<宏定义和函数可以同名吗>> 
+ * */
+/* 当然, 因为这些宏定义被包含在#if UNIX ... #endif之中, 所以只有UNIX宏被定义了这
+ * 些宏的作用才生效! 
+ * */
 #define ungetch(c)	((void) (unchar = (c)))
 
 #define get_tick()		((u32_t) time(nil))
@@ -339,7 +363,7 @@ int sugar(char *tok)
 
 char *onetoken(char **aline)
 /* Returns a string with one token for tokenize. */
-{
+{/* ":;leader;main" */
 	char *line= *aline;
 	size_t n;
 	char *tok;
@@ -360,8 +384,7 @@ char *onetoken(char **aline)
 			if (*line == '(') depth++;
 			if (*line++ == ')' && --depth == 0) break;
 		}
-	} else
-	if (sugar(line)) {
+	} else if (sugar(line)) {
 		/* Single character token. */
 		line++;
 	} else {
@@ -379,7 +402,6 @@ char *onetoken(char **aline)
 }
 
 /* Typed commands form strings of tokens. */
-
 typedef struct token {
 	struct token	*next;	/* Next in a command chain. */
 	char		*token;
@@ -396,9 +418,10 @@ token **tokenize(token **acmds, char *line)
 	char *tok;
 	token *newcmd;
 
-	while ((tok= onetoken(&line)) != nil) {
+	while ((tok= onetoken(&line)) != nil) { /* ":;leader;main" */
 		newcmd= malloc(sizeof(*newcmd));
-		newcmd->token= tok;
+		newcmd->token= tok; /* 在onetoken中已经为tok分配的新的内存空间 */
+		/* 采用在链表尾插入的算法 */
 		newcmd->next= *acmds;
 		*acmds= newcmd;
 		acmds= &newcmd->next;
@@ -456,25 +479,30 @@ struct biosdev {
 	int device, primary, secondary;
 } bootdev, tmpdev;
 
+/* @master: 读取到的扇区被保存到master */
 int get_master(char *master, struct part_entry **table, u32_t pos)
 /* Read a master boot sector and its partition table. */
 {
 	int r, n;
 	struct part_entry *pe, **pt;
 
-	if ((r= readsectors(mon2abs(master), pos, 1)) != 0) return r;
+	/* Read 1 sectors from "device". */
+	if ((r= readsectors(mon2abs(master), pos, 1)) != 0) return r; /* @@@@@ */
 
+	/* 把4个分区表项入口保存到table中 */
 	pe= (struct part_entry *) (master + PART_TABLE_OFF);
 	for (pt= table; pt < table + NR_PARTITIONS; pt++) *pt= pe++;
 
 	/* DOS has the misguided idea that partition tables must be sorted. */
+	/* If a partition is subpartitioned and the partition has a master boot
+	 * record, the partition table from the master boot record does not need to
+	 * be sorted. */
 	if (pos != 0) return 0;		/* But only the primary. */
 
 	n= NR_PARTITIONS;
-	do {
+	do { /* 按lowsec大小从小到大排序, 为0的(即未使用的)放到最后 */
 		for (pt= table; pt < table + NR_PARTITIONS-1; pt++) {
-			if (pt[0]->sysind == NO_PART
-					|| pt[0]->lowsec > pt[1]->lowsec) {
+			if (pt[0]->sysind == NO_PART || pt[0]->lowsec > pt[1]->lowsec) {
 				pe= pt[0]; pt[0]= pt[1]; pt[1]= pe;
 			}
 		}
@@ -482,6 +510,15 @@ int get_master(char *master, struct part_entry **table, u32_t pos)
 	return 0;
 }
 
+/*==========================================================================
+* @Description:
+1)  Relocates the boot monitor to the upper end of low memory.  Low memory is
+	memory that is under 640KB.
+2)  Removes the boot monitor from the memory map that is passed to the kernel.
+	This prevents the kernel from allocating the memory that the boot monitor
+	occupies.
+3)  Initializes bootdev
+**==========================================================================*/
 void initialize(void)
 {
 	char master[SECTOR_SIZE];
@@ -496,12 +533,21 @@ void initialize(void)
 	 */
 	u32_t oldaddr= caddr;
 	u32_t memend= mem[0].base + mem[0].size;
+			
+	/* The L in ~0x000FL stands for Long.  In Minix, the type long is 32-bits.     */
+	/*     ~0x000FL = ~0x0000000F = 0xFFFFFFF0.  Note that ~0x000F (without the L) */
+	/*     is equal to 0xFFF0 and not 0xFFFFFFF0.                                  */
+	/* Since memend and runsize are 32-bit values, newaddr = (memend-runsize) &    */
+	/*     ~0x000FL will be on a 16-byte boundary.  Since the boot monitor runs in */
+	/*     real mode, the beginning of a segment (in this case, the code segment)  */
+	/*     must be on a 16-byte boundary.                                          */
 	u32_t newaddr= (memend - runsize) & ~0x0000FL;
 #if !DOS
-	u32_t dma64k= (memend - 1) & ~0x0FFFFL;
+	u32_t dma64k= (memend - 1) & ~0x0FFFFL; /* 0xFFFF0000. 0x10000=64KB */
 
 
 	/* Check if data segment crosses a 64K boundary. */
+	/* data segment 不能与64K边界交差! 见 Figure 1. */
 	if (newaddr + (daddr - caddr) < dma64k) newaddr= dma64k - runsize;
 #endif
 
@@ -511,16 +557,17 @@ void initialize(void)
 	/* Copy code and data. */
 	raw_copy(newaddr, oldaddr, runsize);
 
-	/* Make the copy running. */
+	/* Make the copy running. */ /* 转换运行刚拷贝的 */
 	relocate();
 
 #if !DOS
 
 	/* Take the monitor out of the memory map if we have memory to spare,
-	 * and also keep the BIOS data area safe (1.5K), plus a bit extra for
+	 * and also keep the BIOS data area safe (1.5K(0x600)), plus a bit extra for
 	 * where we may have to put a.out headers for older kernels.
 	 */
-	if (mon_return = (mem[1].size > 512*1024L)) mem[0].size = newaddr;
+	if (mon_return = (mem[1].size > 512*1024L)) /* 见(^Figure 2^) */
+		mem[0].size = newaddr;/* 除0~2048,newaddr以下的区域都可以作为可用空间.如下 */
 	mem[0].base += 2048;
 	mem[0].size -= 2048;
 
@@ -531,7 +578,7 @@ void initialize(void)
 	bootdev.secondary= -1;
 
 	if (device < 0x80) {
-		/* Floppy. */
+		/* Floppy. */ /* 0x00 0x01 */
 		strcpy(bootdev.name, "fd0");
 		bootdev.name[2] += bootdev.device;
 		return;
@@ -551,20 +598,23 @@ void initialize(void)
 	for (;;) {
 		/* Extract the partition table from the master boot sector. */
 		if ((r= get_master(master, table, masterpos)) != 0) {
-			readerr(masterpos, r); exit(1);
+			readerr(masterpos, r); exit(1); /* @@@@@ */
 		}
 
 		/* See if you can find "lowsec" back. */
 		for (p= 0; p < NR_PARTITIONS; p++) {
 			if (lowsec - table[p]->lowsec < table[p]->size) break;
+			/* 即: if (lowsec  <  table[p]->lowsec + table[p]->size) break; */
 		}
 
+		/* 1)  lowsec == table[p]->lowsec                                */
+		/* The partition or subpartition has been found (see line 5528). */
 		if (lowsec == table[p]->lowsec) {	/* Found! */
 			if (bootdev.primary < 0)
 				bootdev.primary= p;
 			else
 				bootdev.secondary= p;
-			break;
+			break; /* 退出外循环 */
 		}
 
 		if (p == NR_PARTITIONS || bootdev.primary >= 0
@@ -577,11 +627,16 @@ void initialize(void)
 		}
 
 		/* See if the primary partition is subpartitioned. */
+		/* 2)  lowsec > table[p]->lowsec                                          */
+		/* table[p] points to the partition table entry whose partition contains  */
+		/* the booted subpartition (i.e. the subpartition with a lowest sector of */
+		/* lowsec). 有可能在子分区里.                                             */
 		bootdev.primary= p;
 		masterpos= table[p]->lowsec;
 	}
-	strcpy(bootdev.name, "d0p0");
-	bootdev.name[1] += (device - 0x80);
+	/* c0d0p0s0: 控制器0, 驱动器0, 分区0, 子分区0. */
+	strcpy(bootdev.name, "d0p0"); /* d0p0s0: 驱动器0, 分区0, 子分区0. */
+	bootdev.name[1] += (device - 0x80); /* 硬盘从0x80开始编号 */
 	bootdev.name[3] += bootdev.primary;
 	if (bootdev.secondary >= 0) {
 		strcat(bootdev.name, "s0");
@@ -596,7 +651,7 @@ void initialize(void)
 	if (mem[1].size > 0) mem[0].size = newaddr + 0x80 - mem[0].base;
 
 	/* Parse the command line. */
-	argp= PSP + 0x81;
+	argp= _PSP + 0x81;
 	argp[PSP[0x80]]= 0;
 	while (between('\1', *argp, ' ')) argp++;
 	vdisk= argp;
@@ -700,17 +755,32 @@ char *b_value(char *name)
 {
 	environment *e= b_getenv(name);
 
+	/* 运算符优先级(高-->低): !  ==  !=  &&  ||  ?:  */
 	return e == nil || !(e->flags & E_VAR) ? nil : e->value;
+	/* 即: return (e == nil || !(e->flags & E_VAR)) ? nil : e->value; */
 }
 
 char *b_body(char *name)
 /* The value of a function. */
 {
 	environment *e= b_getenv(name);
-
+	/* 运算符优先级(高-->低): !  ==  !=  &&  ||  ?:  */
 	return e == nil || !(e->flags & E_FUNCTION) ? nil : e->value;
+	/* 即: return (e == nil || !(e->flags & E_FUNCTION)) ? nil : e->value; */
 }
 
+/*==========================================================================*
+ *@Description:  设置环境变量, 或函数, 可带参数
+ *
+ *@Param flags
+ *@Param name
+ *@Param arg
+ *@Param value
+ *
+ *@Returns: 	can fail (return a nonzero value) if:
+ * 1)  an attempt is made to change the value of an E_RESERVED variable or function.
+ * 2)  an attempt is made to change an E_SPECIAL variable to a function (or vice versa). 
+ *==========================================================================*/
 int b_setenv(int flags, char *name, char *arg, char *value)
 /* Change the value of an environment variable.  Returns the flags of the
  * variable if you are not allowed to change it, 0 otherwise.
@@ -718,42 +788,55 @@ int b_setenv(int flags, char *name, char *arg, char *value)
 {
 	environment **aenv, *e;
 
-	if (*(aenv= searchenv(name)) == nil) {
-		if (reserved(name)) return E_RESERVED;
+	if (*(aenv= searchenv(name)) == nil) { /* 该环境变量没有被设置过? */
+		if (reserved(name))  /* name是系统保留的名字吗? see: resnames */
+			return E_RESERVED; /* 这些系统保留的关键字的值不能被用户设置 */
 		e= malloc(sizeof(*e));
 		e->name= copystr(name);
 		e->flags= flags;
 		e->defval= nil;
 		e->next= nil;
-		*aenv= e;
-	} else {
+		*aenv= e; /* add to Lists of environment: env */
+	} else { /* ????? */
 		e= *aenv;
 
 		/* Don't change special variables to functions or vv. */
+		/* 若是特殊变量且"可变变量或函数标志"不相同, 则不可以修改! */
 		if (e->flags & E_SPECIAL
 			&& (e->flags & E_FUNCTION) != (flags & E_FUNCTION)
 		) return e->flags;
 
 		e->flags= (e->flags & E_STICKY) | flags;
-		if (is_default(e)) {
+		if (is_default(e)) { /* defval为空, 则先设值defval */
 			e->defval= e->value;
 		} else {
 			sfree(e->value);
 		}
 		sfree(e->arg);
 	}
-	e->arg= copystr(arg);
+	e->arg= copystr(arg); /* copystr: 申请新内存空间, 而不是仅仅复制地址 */
 	e->value= copystr(value);
 
 	return 0;
 }
 
+/*==========================================================================*
+ *@Description:  设置环境变量, 不可带参数
+ *
+ *@Param flags
+ *@Param name
+ *@Param value
+ *
+ *@Returns: 	can fail (return a nonzero value) if:
+ * 1)  an attempt is made to change the value of an E_RESERVED variable or function.
+ * 2)  an attempt is made to change an E_SPECIAL variable to a function (or vice versa). 
+ *==========================================================================*/
 int b_setvar(int flags, char *name, char *value)
 /* Set variable or simple function. */
 {
 	int r;
 
-	if((r=b_setenv(flags, name, null, value))) {
+	if((r=b_setenv(flags, name, null, value))) { /* 参数为: null */
 		return r;
 	}
 
@@ -870,6 +953,7 @@ void get_parameters(void)
 		strcat(params, ":");
 		strcat(params, ul2a(mp->size, 0x10));
 	}
+	/* params的内容被复制到新的内存空间, 而不是仅仅被复制地址 */
 	b_setvar(E_SPECIAL|E_VAR, "memory", params);
 
 #if 0
@@ -885,6 +969,8 @@ void get_parameters(void)
 #endif
 
 #endif
+
+
 #if UNIX
 	b_setvar(E_SPECIAL|E_VAR, "processor", "?");
 	b_setvar(E_SPECIAL|E_VAR, "bus", "?");
@@ -896,7 +982,7 @@ void get_parameters(void)
 
 	/* Variables boot needs: */
 	b_setvar(E_SPECIAL|E_VAR, "image", "boot/image");
-	b_setvar(E_SPECIAL|E_FUNCTION, "leader", 
+	b_setvar(E_SPECIAL|E_FUNCTION, "leader",
 		"echo --- Welcome to MINIX 3. This is the boot monitor. ---\\n");
 	b_setvar(E_SPECIAL|E_FUNCTION, "main", "menu");
 	b_setvar(E_SPECIAL|E_FUNCTION, "trailer", "");
@@ -910,7 +996,7 @@ void get_parameters(void)
 		exit(1);
 	}
 	params[SECTOR_SIZE]= 0;
-	acmds= tokenize(&cmds, params);
+	acmds= tokenize(&cmds, params); /* 初始化cmds */
 
 	/* Stuff the default action into the command chain. */
 #if UNIX
@@ -1030,7 +1116,7 @@ int numeric(char *s)
 static dev_t dev_cNd0[] = { 0x0300, 0x0800, 0x0A00, 0x0C00, 0x1000 };
 #define minor_p0s0	   128
 
-static int block_size;
+static int block_size; /*  */ 
 
 dev_t name2dev(char *name)
 /* Translate, say, /dev/c0d0p2 to a device number.  If the name can't be
@@ -1419,18 +1505,20 @@ void ls(char *dir)
 	while ((ino= r_readdir(name)) != 0) printf("%s/%s\n", dir, name);
 }
 
+/* 返回的是毫秒(精确到MSEC_PER_TICK毫秒) */
 u32_t milli_time(void)
 {
+	/* Clock does 18.2 ticks per second. */
 	return get_tick() * MSEC_PER_TICK;
 }
 
 u32_t milli_since(u32_t base)
 {
 	return (milli_time() + (TICKS_PER_DAY*MSEC_PER_TICK) - base)
-			% (TICKS_PER_DAY*MSEC_PER_TICK);
+			% (TICKS_PER_DAY*MSEC_PER_TICK); /* ????? */
 }
 
-char *Thandler;
+char *Thandler; /* 时间到, 执行的命令或函数 */ 
 u32_t Tbase, Tcount;
 
 void unschedule(void)
@@ -1454,6 +1542,11 @@ void schedule(long msec, char *cmd)
 	alarm(1);
 }
 
+/*==========================================================================*
+ *@Description:  设置了定时器且时间到了则返回非0, 否则返回0
+ *
+ *@Returns:
+ *==========================================================================*/
 int expired(void)
 /* Check if the timer expired for getch(). */
 {
@@ -1482,6 +1575,29 @@ enum whatfun { NOFUN, SELECT, DEFFUN, USERFUN } menufun(environment *e)
 	return e->flags & E_RESERVED ? DEFFUN : USERFUN;
 }
 
+/*==========================================================================*
+ *@Description:
+menu() is invoked by the boot monitor menu command (see line 6543).  By
+default, the only option the menu command shows is:
+	 =  Start Minix
+If the user types "=", the command boot is executed (see line 5834).
+If there are several images and the user wishes to be given a choice, he can
+define his own functions:
+hd2a>image1(a) {image=image_file_1; boot}
+hd2a>image2(b,Boot image_file_2) {image=image_file_2; boot}
+The menu command would show the following choices:
+	 a  Select image1 kernel
+	 b  Boot image_file_2
+Note that the "= Start Minix" command is not shown.  If the user defines any
+functions of the form:
+hd2a>image2(b,Boot image_file_2) {image=image_file_2; boot}
+then no default functions are shown (see comment for line 6231).  Also note
+that the menu command shows no simple functions (simple functions are functions
+whose arg is null).  The following function would not be shown as an option
+with the menu command:
+hd2a>image3() {image=image_file_3; boot} 
+ *
+ *==========================================================================*/
 void menu(void)
 /* By default:  Show a simple menu.
  * Multiple kernels/images:  Show extra selection options.
@@ -1545,27 +1661,27 @@ void help(void)
 		char	*help;
 	} *pi;
 	static struct help info[] = {
-		{ nil,	"Names:" },
+		{ nil,				"Names:" },
 		{ "rootdev",		"Root device" },
 		{ "ramimagedev",	"Device to use as RAM disk image " },
 		{ "ramsize",		"RAM disk size (if no image device) " },
 		{ "bootdev",		"Special name for the boot device" },
 		{ "fd0, d0p2, c0d0p1s0",	"Devices (as in /dev)" },
-		{ "image",		"Name of the boot image to use" },
-		{ "main",		"Startup function" },
+		{ "image",			"Name of the boot image to use" },
+		{ "main",			"Startup function" },
 		{ "bootdelay",		"Delay in msec after loading image" },
-		{ nil,	"Commands:" },
+		{ nil,				"Commands:" },
 		{ "name = [device] value",  "Set environment variable" },
-		{ "name() { ... }",	    "Define function" },
+		{ "name() { ... }",	"Define function" },
 		{ "name(key,text) { ... }",
 			"A menu option like: minix(=,Start MINIX) {boot}" },
-		{ "name",		"Call function" },
+		{ "name",			"Call function" },
 		{ "boot [device]",	"Boot Minix or another O.S." },
 		{ "ctty [line]",	"Duplicate to serial line" },
 		{ "delay [msec]",	"Delay (500 msec default)" },
 		{ "echo word ...",	"Display the words" },
 		{ "ls [directory]",	"List contents of directory" },
-		{ "menu",		"Show menu and choose menu option" },
+		{ "menu",			"Show menu and choose menu option" },
 		{ "save / set",		"Save or show environment" },
 		{ "trap msec command",	"Schedule command " },
 		{ "unset name ...",	"Unset variable or set to default" },
@@ -1579,7 +1695,7 @@ void help(void)
 }
 
 void execute(void)
-/* Get one command from the command chain and execute it. */
+/* Get one command from the command chain(cmds) and execute it. */
 {
 	token *second, *third, *fourth, *sep;
 	char *name;
@@ -1598,20 +1714,21 @@ void execute(void)
 	}
 
 	/* There must be a separator lurking somewhere. */
+	/* 对于: "name1=value1\n", n等于3 */
 	for (sep= cmds; sep != nil && sep->token[0] != ';'; sep= sep->next) n++;
 
 	name= cmds->token;
-	res= reserved(name);
-	if ((second= cmds->next) != nil
-		&& (third= second->next) != nil)
+	res= reserved(name); /* 是系统保留的变量名? */
+	if ((second= cmds->next) != nil && (third= second->next) != nil)
 			fourth= third->next;
 
-		/* Null command? */
+	/* Null command? */
 	if (n == 0) {
 		voidtoken();
 		return;
 	} else
-		/* name = [device] value? */
+		/* name=value ?  OR  name=device value ? */
+		/* aa=bb;cc=dd\0 */
 	if ((n == 3 || n == 4)
 		&& !sugar(name)
 		&& second->token[0] == '='
@@ -1626,25 +1743,37 @@ void execute(void)
 
 		if ((flags= b_setvar(flags, name, value)) != 0) {
 			printf("%s is a %s\n", name,
-				flags & E_RESERVED ? "reserved word" :
-						"special function");
+				flags & E_RESERVED ? "reserved word" : "special function");
 			err= 1;
 		}
-		while (cmds != sep) voidtoken();
+		while (cmds != sep) voidtoken(); /* 把所执行了的命令所占的空间释放 */
 		return;
 	} else
 		/* name '(arg)' ... ? */
-	if (n >= 3
-		&& !sugar(name)
-		&& second->token[0] == '('
-	) {
+	if (n >= 3 && !sugar(name) && second->token[0] == '(') {
+	/* token1    token2    token3    ...    tokenN                                    */
+	/* name1     (arg)     {         ...    }                                         */
+	/* Note that arg can be the empty string; in other words, token2 can be "()".     */
+	/*                                                                                */
+	/* hd2a>name1() boot;                                                             */
+	/* hd2a>name1() { echo hello }                                                    */
+	/* it can be called:                                                              */
+	/* hd2a>name1                                                                     */
+	/* hello                                                                          */
+	/*                                                                                */
+	/* If a function has one or two arguments:                                        */
+	/*  fun(选择号, 提示信息) { ...}                                                  */
+	/* hd2a>image1(a) {image=image_file_1; boot}                                      */
+	/* hd2a>image2(b,Boot image_file_2) {image=image_file_2; boot}                    */
+	/* 该函数会在执行menu命令后显示在屏幕上, 供用户选择.                              */
+
 		token *fun;
 		int c, flags, depth;
 		char *body;
 		size_t len;
 
 		sep= fun= third;
-		depth= 0;
+		depth= 0; /* 有几层 { } ? */
 		len= 1;
 		while (sep != nil) {
 			if ((c= sep->token[0]) == ';' && depth == 0) break;
@@ -1659,31 +1788,45 @@ void execute(void)
 
 		while (fun != sep) {
 			strcat(body, fun->token);
-			if (!sugar(fun->token)
-				&& !sugar(fun->next->token)
-			) strcat(body, " ");
+			if (!sugar(fun->token) && !sugar(fun->next->token))
+				strcat(body, " ");
 			fun= fun->next;
 		}
-		second->token[strlen(second->token)-1]= 0;
+		second->token[strlen(second->token)-1]= 0; /* (arg1, arg2) => (arg1, arg2\0 */
 
 		if (depth != 0) {
 			printf("Missing '}'\n");
 			err= 1;
-		} else
-		if ((flags= b_setenv(E_FUNCTION, name,
+		} else if ((flags= b_setenv(E_FUNCTION, name,
 					second->token+1, body)) != 0) {
 			printf("%s is a %s\n", name,
-				flags & E_RESERVED ? "reserved word" :
-						"special variable");
+				flags & E_RESERVED ? "reserved word" : "special variable");
 			err= 1;
 		}
 		while (cmds != sep) voidtoken();
 		free(body);
 		return;
-	} else
-		/* Grouping? */
-	if (name[0] == '{') {
-		token **acmds= &cmds->next;
+	} else if (name[0] == '{') { /* Grouping? */
+	/* hd2a>{{echo hello\n} echo hello\n}                                          */
+	/* is broken up into the following tokens:                                     */
+	/* token1    token2    token3   token4		token5    token6   token7   token8 */
+	/* {         {         echo     hello\	    }         echo     hello\n  }      */
+	/*                                                                             */
+	/* The first time execute() is called, it removes the first curly brace and    */
+	/*     replaces the second curly brace with a semicolon:                       */
+	/* token1    token2    token3   token4		token5    token6   token7          */
+	/* {         echo     hello\	    }         echo     hello\n  ;		       */
+	/*                                                                             */
+	/* The second time execute() is called, it again removes the first curly brace */
+	/*     and replaces the second curly brace with a semicolon:                   */
+	/* token1    token2    token3   token4		token5    token6                   */
+	/* echo     hello\	    ;         echo     hello\n    ;					       */
+	/*                                                                             */
+	/* The next time execute() is called, it processes the echo hello\n command    */
+	/*     and the last time execute() is called, it processes the echo hello\n    */
+	/*     command again.                                                          */
+
+		token **acmds= &cmds->next; /* &(cmds->next) */ 
 		char *t;
 		int depth= 1;
 
@@ -1695,7 +1838,7 @@ void execute(void)
 			if (t[0] == '}' && --depth == 0) { t[0]= ';'; break; }
 			acmds= &(*acmds)->next;
 		}
-		voidtoken();
+		voidtoken(); /* 释放第一个 '{' */ 
 		return;
 	} else
 		/* Command coming up, check if ESC typed. */
@@ -1704,19 +1847,19 @@ void execute(void)
 	} else
 		/* unset name ..., echo word ...? */
 	if (n >= 1 && (res == R_UNSET || res == R_ECHO)) {
-		char *arg= poptoken(), *p;
-
+		char *arg= poptoken(), *p;	/* "unset name" => "name" */ 
+									/* "echo \v"	=> "\v"   */ 
 		for (;;) {
 			free(arg);
 			if (cmds == sep) break;
 			arg= poptoken();
-			if (res == R_UNSET) {	/* unset arg */
+			if (res == R_UNSET) {	/* unset arg */ /* arg="name" */ 
 				b_unset(arg);
 			} else {		/* echo arg */
 				p= arg;
 				while (*p != 0) {
 					if (*p != '\\') {
-						putch(*p);
+						putch(*p); /* ????? */ 
 					} else
 					switch (*++p) {
 					case 0:
@@ -1751,11 +1894,14 @@ void execute(void)
 	} else
 		/* boot -opts? */
 	if (n == 2 && res == R_BOOT && second->token[0] == '-') {
+	/* hd2a>boot -option1                                                        */
+	/* sets the environment variable bootopts to "option1" and then boots the OS */
+	/* image specified by the environment variable image.                        */
 		static char optsvar[]= "bootopts";
 		(void) b_setvar(E_VAR, optsvar, second->token);
 		voidtoken();
 		voidtoken();
-		bootminix();
+		bootminix(); /* 在 bootimage.c中定义 */ /* !!!!! */ 
 		b_unset(optsvar);
 		return;
 	} else
@@ -1773,15 +1919,15 @@ void execute(void)
 	} else
 		/* trap msec command? */
 	if (n == 3 && res == R_TRAP && numeric(second->token)) {
+	/* hd2a>trap 5000 boot                                                   */
+	/* schedules the boot monitor boot command to be executed in 5 seconds.  */
 		long msec= a2l(second->token);
 
 		voidtoken();
 		voidtoken();
 		schedule(msec, poptoken());
 		return;
-	} else
-		/* Simple command. */
-	if (n == 1) {
+	} else if (n == 1) { /* Simple command. */
 		char *body;
 		int ok= 0;
 
@@ -1849,7 +1995,7 @@ void monitor(void)
 	line= readline();
 	(void) tokenize(&cmds, line);
 	free(line);
-	(void) escape();	/* Forget if ESC typed. */
+	(void) escape();	/* Forget if ESC typed. */ /* 作用是什么????? */ 
 }
 
 #if BIOS
@@ -1857,6 +2003,10 @@ void monitor(void)
 unsigned char cdspec[25];
 void bootcdinfo(u32_t, int *, int drive);
 
+/*==========================================================================*
+ *@Description:  boot() is called from boothead.s; it is the first function
+ *				 from boot.c to be called.
+ *==========================================================================*/
 void boot(void)
 /* Load Minix and start it, among other things. */
 {
@@ -1865,12 +2015,12 @@ void boot(void)
 	initialize();
 
 	/* Get environment variables from the parameter sector. */
-	get_parameters();
+	get_parameters(); /* 从parameter-sector中取得环境变量, 保存在cmds中. */
 
 	while (1) {
 		/* While there are commands, execute them! */
 
-		while (cmds != nil) execute();
+		while (cmds != nil) execute(); /* @@@@@ */
 
 		/* The "monitor" is just a "read one command" thing. */
 		monitor();
@@ -1959,3 +2109,64 @@ void main(int argc, char **argv)
 /*
  * $PchId: boot.c,v 1.14 2002/02/27 19:46:14 philip Exp $
  */
+
+ /* 1M? |-------|memend                      1M? |-------|memend
+		|       |                                |       |
+		|       |                                |       |
+		|       |                         15*64K |*******|=>最后一个64K边界
+		|=======|                                |=======|
+		| DATA  |(data与64K边界交差了!)          | DATA  |
+ 15*64K |*DATA**|=>最后一个64K边界               |-------|
+		|-------|                                |"""""""|
+		| CODE  |                                | CODE  |
+		|=======|newaddr                         |=======|newaddr
+		|       |                                |       |
+		|       |                                |       |
+		~       ~                                ~       ~
+		~       ~                                ~       ~
+		|       |                                |       |
+		~       ~                                ~       ~
+		~       ~                                ~       ~
+		|       |\                               |       |\
+		|       | |= runsize                     |       | |= runsize
+		|       |/                               |       |/
+	64K |-------|monitor开始被加载的位置.    64K |-------|(复制到newaddr处,保留给
+		|       |                                |       | minix退出时返回monitor)
+		|       |                                |       |
+		|       |                                |       |
+	0x0 |-------|                            0x0 |-------|
+
+	(1) 交差			                    (2) 没交差
+					   Figure 1: boot monitor 被复制到low-memory的顶部
+   */
+
+/*   |        |
+   2K|--------|0x0800\
+     |        |       \
+     |        |        \
+     |        |         \
+     |        |0x0600    \
+ 1.5K|--------|           \
+     |        |0x05FF     |
+     |        |           |
+     |        |           |=  (bios数据区域(自检后所得到的数据))
+     |        |0x0500     |
+1.25K|--------|           |
+     |        |0x04FF    /
+     |        |         /
+     |        |        /
+     |        |       /
+     |        |0x0400/
+   1K|--------|
+     |        |0x03FF
+     |        |      \
+     |        |       \
+     |        |        |= (中断向量表区域和BIOS的stack)
+     |        |       /
+     |        |      /
+   0K|--------|0x0000
+
+  Figure 2: 0~0x0800内存区域布局
+
+*/
+/* strcpy */

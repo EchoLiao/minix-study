@@ -21,7 +21,7 @@
 #include <servers/fs/inode.h>
 #include "rawfs.h"
 
-void readblock(off_t blockno, char *buf, int);
+void readblock(off_t blockno, char *buf, int); /* 在boot.c中实现! */ 
 
 /* The following code handles two file system types: Version 1 with small
  * inodes and 16-bit disk addresses and Version 2 with big inodes and 32-bit
@@ -33,7 +33,8 @@ void readblock(off_t blockno, char *buf, int);
  */
 
 /* File system parameters. */
-static unsigned nr_dzones;	/* Fill these in after reading superblock. */
+/* Fill these in after reading superblock. */
+static unsigned nr_dzones;	
 static unsigned nr_indirects;
 static unsigned inodes_per_block;
 static int block_size;
@@ -74,7 +75,9 @@ off_t r_super(int *bs)
 	 * that's why we lie to readblock and say the block size is 1024
 	 * and we want block number 1 (the 'second block', at offset 1kB).)
 	 */
-	readblock(1, scratch, 1024);
+	/* 第一块为book block;
+	 * 第二块为super block*/
+	readblock(1, scratch, 1024); /* 读取super block */ 
 
 	memcpy(&super, scratch, sizeof(super));
 
