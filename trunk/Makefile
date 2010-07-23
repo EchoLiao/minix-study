@@ -4,25 +4,25 @@ MAKE	= exec make -$(MAKEFLAGS)
 GMAKE	= gmake
 
 usage:
-	@echo "" 
-	@echo "Master Makefile for MINIX commands and utilities." 
-	@echo "Root privileges are required for some actions." 
-	@echo "" 
-	@echo "Usage:" 
-	@echo "	make world      # Compile everything (libraries & commands)" 
-	@echo "	make includes   # Install include files from src/" 
-	@echo "	make libraries  # Compile and install libraries" 
-	@echo "	make cmds       # Compile all, commands, but don't install" 
-	@echo "	make install    # Compile and install commands" 
-	@echo "	make depend     # Generate required .depend files" 
-	@echo "	make clean      # Remove all compiler results" 
-	@echo "" 
-	@echo "Run 'make' in tools/ to create a new MINIX configuration." 
-	@echo "" 
-	@echo "Rebuilding the libraries uses gmake and gcc too, which takes" 
-	@echo "a lot of memory currently. See src/lib/ackonly/README for" 
-	@echo "more information." 
-	@echo "" 
+	@echo ""
+	@echo "Master Makefile for MINIX commands and utilities."
+	@echo "Root privileges are required for some actions."
+	@echo ""
+	@echo "Usage:"
+	@echo "	make world      # Compile everything (libraries & commands)"
+	@echo "	make includes   # Install include files from src/"
+	@echo "	make libraries  # Compile and install libraries"
+	@echo "	make cmds       # Compile all, commands, but don't install"
+	@echo "	make install    # Compile and install commands"
+	@echo "	make depend     # Generate required .depend files"
+	@echo "	make clean      # Remove all compiler results"
+	@echo ""
+	@echo "Run 'make' in tools/ to create a new MINIX configuration."
+	@echo ""
+	@echo "Rebuilding the libraries uses gmake and gcc too, which takes"
+	@echo "a lot of memory currently. See src/lib/ackonly/README for"
+	@echo "more information."
+	@echo ""
 
 # world has to be able to make a new system, even if there
 # is no complete old system. it has to install commands, for which
@@ -30,7 +30,7 @@ usage:
 # for which it has to install /etc (for users and ownerships).
 # etcfiles also creates a directory hierarchy in its
 # 'make install' target.
-# 
+#
 # etcfiles has to be done first.
 world: includes depend libraries cmds install postinstall
 

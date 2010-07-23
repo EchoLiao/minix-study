@@ -8,22 +8,22 @@
 
 int svrctl(int request, void *argp)
 {
-	message m;
+    message m;
 
-	m.m2_i1 = request;
-	m.m2_p1 = argp;
+    m.m2_i1 = request;
+    m.m2_p1 = argp;
 
-	switch ((request >> 8) & 0xFF) {
+    switch ((request >> 8) & 0xFF) {
 	case 'M':
 	case 'S':
-		/* MM handles calls for itself and the kernel. */
-		return _syscall(MM, SVRCTL, &m);
+	    /* MM handles calls for itself and the kernel. */
+	    return _syscall(MM, SVRCTL, &m);
 	case 'F':
 	case 'I':
-		/* FS handles calls for itself and inet. */
-		return _syscall(FS, SVRCTL, &m);
+	    /* FS handles calls for itself and inet. */
+	    return _syscall(FS, SVRCTL, &m);
 	default:
-		errno = EINVAL;
-		return -1;
-	}
+	    errno = EINVAL;
+	    return -1;
+    }
 }

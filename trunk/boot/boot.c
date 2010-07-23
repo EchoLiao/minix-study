@@ -114,6 +114,7 @@ char *bios_err(int err)
 	return "Unknown error";
 }
 
+/* 这里是在: #if BIOS ... #endif 之间的!  [>BIOS<] */
 char *unix_err(int err)
 /* Translate the few errors rawfs can give. */
 {
@@ -747,8 +748,8 @@ environment **searchenv(char *name)
 	return aenv;
 }
 
-#define b_getenv(name)	(*searchenv(name))
 /* Return the environment *structure* belonging to name, or nil if not found. */
+#define b_getenv(name)	(*searchenv(name))
 
 char *b_value(char *name)
 /* The value of a variable. */
@@ -869,6 +870,15 @@ void b_unset(char *name)
 	}
 }
 
+/*==========================================================================*
+ *@Description:		把字符串s中的第一个数字字符串转换为对应的数值(第一个字符可
+ *					以为'-').
+ *
+ *@Param a
+ *
+ *@Returns:   
+ *
+ *==========================================================================*/
 long a2l(char *a)
 /* Cheap atol(). */
 {
@@ -1087,6 +1097,18 @@ void show_env(void)
 	}
 }
 
+/*==========================================================================*
+ *@Description:		1) ps为NULL, 判断s是否是一个纯数字字符串
+ *			     	2) ps不为NULL, 从s中提取数字字符串(从第一个字符开始提取), 
+ *			     	直到出现第一个非数字字符串为此.
+ *
+ *@Param s
+ *@Param ps			保存第一个非数字字符的位置
+ *
+ *@Returns:			1) ps为NULL: 若s为纯数字字符串, 则返回1; 否则返回0.
+ *					2) ps不为NULL: 若找到数字字符串, 则返回1, 并把第一个非数字
+ *					字符串位置保存到*ps中; 否则返回0.
+ *==========================================================================*/
 int numprefix(char *s, char **ps)
 /* True iff s is a string of digits.  *ps will be set to the first nondigit
  * if non-nil, otherwise the string should end.
@@ -1096,9 +1118,11 @@ int numprefix(char *s, char **ps)
 
 	while (between('0', *n, '9')) n++;
 
-	if (n == s) return 0;
+	if (n == s)  /* 在非数字字符之前没有数字字符? */ 
+		return 0;
 
-	if (ps == nil) return *n == 0;
+	if (ps == nil)
+		return *n == 0;
 
 	*ps= n;
 	return 1;
@@ -1155,16 +1179,13 @@ dev_t name2dev(char *name)
 
 	if (strcmp(n, "ram") == 0) {
 		dev= DEV_RAM;
-	} else
-	if (strcmp(n, "boot") == 0) {
+	} else if (strcmp(n, "boot") == 0) {
 		dev= DEV_BOOT;
-	} else
-	if (n[0] == 'f' && n[1] == 'd' && numeric(n+2)) {
+	} else if (n[0] == 'f' && n[1] == 'd' && numeric(n+2)) {
 		/* Floppy. */
 		tmpdev.device= a2l(n+2);
 		dev= DEV_FD0 + tmpdev.device;
-	} else
-	if ((n[0] == 'h' || n[0] == 's') && n[1] == 'd' && numprefix(n+2, &s)
+	} else if ((n[0] == 'h' || n[0] == 's') && n[1] == 'd' && numprefix(n+2, &s)
 		&& (*s == 0 || (between('a', *s, 'd') && s[1] == 0))
 	) {
 		/* Old style hard disk (backwards compatibility.) */
@@ -1428,6 +1449,7 @@ int exec_bootstrap(void)
 	if (dirty && (r= writesectors(mon2abs(master), masterpos, 1)) != 0)
 		return r;
 
+	/* _bootstrap */
 	bootstrap(device, active);
 }
 

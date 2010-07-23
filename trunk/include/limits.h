@@ -1,4 +1,4 @@
-/* The <limits.h> header defines some basic sizes, both of the language types 
+/* The <limits.h> header defines some basic sizes, both of the language types
  * (e.g., the number of bits in an integer), and of the operating system (e.g.
  * the number of characters in a file name.
  */
@@ -68,6 +68,7 @@
 #endif
 #define CHILD_MAX    _NO_LIMIT	/* MINIX does not limit children */
 #define OPEN_MAX            20	/* # open files a process may have */
+				/* 这也要受 fp_cloexec 的限制 */
 #if 0			/* V1 file system */
 #define LINK_MAX      CHAR_MAX	/* # links a file may have */
 #else			/* V2 or better file system */
@@ -75,7 +76,7 @@
 #endif
 #define MAX_CANON          255	/* size of the canonical input queue */
 #define MAX_INPUT          255	/* size of the type-ahead buffer */
-#define NAME_MAX        DIRSIZ	/* # chars in a file name */ /* ... */ 
+#define NAME_MAX        DIRSIZ	/* # chars in a file name */ /* ... */
 #define PATH_MAX           255	/* # chars in a path name */ /* 绝对路径的最大长度 */
 #define PIPE_BUF          7168	/* # bytes in atomic write to a pipe */
 #define STREAM_MAX          20	/* must be the same as FOPEN_MAX in stdio.h */

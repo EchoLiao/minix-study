@@ -45,15 +45,15 @@ PUBLIC int do_getsysinfo()
   	proc_addr = &fproc[0];
   	src_addr = (vir_bytes) &proc_addr;
   	len = sizeof(struct fproc *);
-  	break; 
+  	break;
   case SI_PROC_TAB:
   	src_addr = (vir_bytes) fproc;
   	len = sizeof(struct fproc) * NR_PROCS;
-  	break; 
+  	break;
   case SI_DMAP_TAB:
   	src_addr = (vir_bytes) dmap;
   	len = sizeof(struct dmap) * NR_DEVICES;
-  	break; 
+  	break;
   default:
   	return(EINVAL);
   }
@@ -142,7 +142,7 @@ PUBLIC int do_fcntl()
      case F_GETFL:
 	/* Get file status flags (O_NONBLOCK and O_APPEND). */
 	fl = f->filp_flags & (O_NONBLOCK | O_APPEND | O_ACCMODE);
-	return(fl);	
+	return(fl);
 
      case F_SETFL:
 	/* Set file status flags (O_NONBLOCK and O_APPEND). */
@@ -166,7 +166,7 @@ PUBLIC int do_fcntl()
  *===========================================================================*/
 PUBLIC int do_sync()
 {
-/* Perform the sync() system call.  Flush all the tables. 
+/* Perform the sync() system call.  Flush all the tables.
  * The order in which the various tables are flushed is critical.  The
  * blocks must be flushed last, since rw_inode() leaves its results in
  * the block cache.
@@ -423,7 +423,7 @@ PUBLIC int do_set()
  *===========================================================================*/
 PUBLIC int do_revive()
 {
-/* A driver, typically TTY, has now gotten the characters that were needed for 
+/* A driver, typically TTY, has now gotten the characters that were needed for
  * a previous read.  The process did not get a reply when it made the call.
  * Instead it was suspended.  Now we can send the reply to wake it up.  This
  * business has to be done carefully, since the incoming message is from
@@ -453,7 +453,7 @@ PUBLIC int do_svrctl()
 	/* Try to copy request structure to FS. */
 	if ((r = sys_datacopy(who, (vir_bytes) m_in.svrctl_argp,
 		FS_PROC_NR, (vir_bytes) &device,
-		(phys_bytes) sizeof(device))) != OK) 
+		(phys_bytes) sizeof(device))) != OK)
 	    return(r);
 
 	/* Try to update device mapping. */
@@ -467,7 +467,7 @@ PUBLIC int do_svrctl()
 	/* Try to copy request structure to FS. */
 	if ((r = sys_datacopy(who, (vir_bytes) m_in.svrctl_argp,
 		FS_PROC_NR, (vir_bytes) &fdu,
-		(phys_bytes) sizeof(fdu))) != OK) 
+		(phys_bytes) sizeof(fdu))) != OK)
 	    return(r);
 	major = (fdu.dev >> MAJOR) & BYTE;
 	r=map_driver(major, NONE, 0);

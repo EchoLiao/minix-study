@@ -12,7 +12,7 @@ int len2;				/* length or process nr */
 {
     message m;
 
-    m.I_REQUEST = request;
+    m.I_REQUEST = request; /* what info to get */
     m.I_PROC_NR = SELF;			/* always store values at caller */
     m.I_VAL_PTR = ptr;
     m.I_VAL_LEN = len;
