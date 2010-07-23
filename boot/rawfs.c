@@ -66,6 +66,14 @@ static off_t dirpos;			/* Reading pos in a dir. */
 
 #define	zone_shift	(super.s_log_zone_size)	/* zone to block ratio */
 
+/*==========================================================================*
+ *@Description:  
+ *
+ *@Param bs
+ *
+ *@Returns:   
+ *
+ *==========================================================================*/
 off_t r_super(int *bs)
 /* Initialize variables, return size of file system in blocks,
  * (zero on error).
@@ -94,8 +102,7 @@ off_t r_super(int *bs)
 		nr_indirects= V2_INDIRECTS(block_size);
 		inodes_per_block= V2_INODES_PER_BLOCK(block_size);
 		return (off_t) super.s_zones << zone_shift;
-	} else
-	if (super.s_magic == SUPER_V1) {
+	} else if (super.s_magic == SUPER_V1) {
 		*bs = block_size = 1024;
 		nr_dzones= V1_NR_DZONES;
 		nr_indirects= V1_INDIRECTS;
@@ -107,6 +114,11 @@ off_t r_super(int *bs)
 	}
 }
 
+/*==========================================================================*
+ *@Description:	r_stat读取Inode: inum中信息保存于stp中, 同时部分信息也被保存在
+ *				全局变量curfil中.
+ *
+ *==========================================================================*/
 void r_stat(Ino_t inum, struct stat *stp)
 /* Return information about a file like stat(2) and remember it. */
 {
@@ -287,6 +299,19 @@ off_t r_vir2abs(off_t virblk)
 	return z;
 }
 
+/*==========================================================================*
+ *@Description:	1) 若path[0]=='/', 则把绝对路径path转换为对应的inode, 并反回;
+ *				2) 若path[0]!='/', 则把相对路径path转换为对应的ino_t, 并反回, 
+ *				其当前目录为cwd.
+ *				如: /dir1/dir2/file1, 将返回file1的inode;
+ *					/dir1/dir2/,	  将返回dir2的inode;
+ *	
+ *@Param cwd
+ *@Param path
+ *
+ *@Returns:   
+ *
+ *==========================================================================*/
 ino_t r_lookup(Ino_t cwd, char *path)
 /* Translates a pathname to an inode number.  This is just a nice utility
  * function, it only needs r_stat and r_readdir.
@@ -300,8 +325,8 @@ ino_t r_lookup(Ino_t cwd, char *path)
 	ino= path[0] == '/' ? ROOT_INO : cwd;
 
 	for (;;) {
-		if (ino == 0) {
-			errno= ENOENT;
+		if (ino == 0) { /* no such file or directory */
+			errno= ENOENT; 
 			return 0;
 		}
 
@@ -312,7 +337,7 @@ ino_t r_lookup(Ino_t cwd, char *path)
 		r_stat(ino, &st);
 
 		if (!S_ISDIR(st.st_mode)) {
-			errno= ENOTDIR;
+			errno= ENOTDIR; /* not a directory */
 			return 0;
 		}
 

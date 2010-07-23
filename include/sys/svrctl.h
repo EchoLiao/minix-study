@@ -1,5 +1,5 @@
 /*
-sys/svrctl.h
+   sys/svrctl.h
 
 Created:	Feb 15, 1994 by Philip Homburg <philip@cs.vu.nl>
 */
@@ -32,38 +32,38 @@ Created:	Feb 15, 1994 by Philip Homburg <philip@cs.vu.nl>
 #define SYSGETENV	_IOW('S',  1, struct sysgetenv)
 
 struct mmswapon {
-	u32_t		offset;		/* Starting offset within file. */
-	u32_t		size;		/* Size of swap area. */
-	char		file[128];	/* Name of swap file/device. */
+    u32_t		offset;		/* Starting offset within file. */
+    u32_t		size;		/* Size of swap area. */
+    char		file[128];	/* Name of swap file/device. */
 };
 
 struct svrqueryparam {
-	char		*param;		/* Names of parameters to query. */
-	size_t		psize;		/* Length of param[]. */
-	char		*value;		/* To return values. */
-	size_t		vsize;
+    char		*param;		/* Names of parameters to query. */
+    size_t		psize;		/* Length of param[]. */
+    char		*value;		/* To return values. */
+    size_t		vsize;
 };
 
 /* A proper system call must be created later. */
 #include <minix/dmap.h>
 struct fssignon {
-	dev_t		dev;		/* Device to manage. */
-	enum dev_style	style;		/* Management style. */
+    dev_t		dev;		/* Device to manage. */
+    enum dev_style	style;		/* Management style. */
 };
 
 struct fsdevunmap {
-	dev_t		dev;		/* Device to unmap. */
+    dev_t		dev;		/* Device to unmap. */
 };
 
 struct systaskinfo {
-	int		proc_nr;	/* Process number of caller. */
+    int		proc_nr;	/* Process number of caller. */
 };
 
 struct sysgetenv {
-	char		*key;		/* Name requested. */
-	size_t		keylen;		/* Length of name including \0. */
-	char		*val;		/* Buffer for returned data. */
-	size_t		vallen;		/* Size of return data buffer. */
+    char		*key;		/* Name requested. */
+    size_t		keylen;		/* Length of name including \0. */ /* including \0 ? QQQQQ */ 
+    char		*val;		/* Buffer for returned data. */
+    size_t		vallen;		/* Size of return data buffer. */
 };
 
 _PROTOTYPE( int svrctl, (int _request, void *_data)			);

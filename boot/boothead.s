@@ -292,7 +292,7 @@ abs2seg:			! Translate the 32 bit address dx-ax to dx:ax
   ! 8 |---------|
     ! | dstaddr |	 栈结构是这样吗??????
   ! 4 |---------|
-    ! | pc      | *
+    ! | pc      | * ! ????? 
   ! 2 |---------|
     ! | bp      |
   ! 0 |---------| bp

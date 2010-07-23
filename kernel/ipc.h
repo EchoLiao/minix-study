@@ -1,6 +1,8 @@
 #ifndef IPC_H
 #define IPC_H
 
+/* lib/i386/rts/_ipc.s 也用到 */
+
 /* This header file defines constants for MINIX inter-process communication.
  * These definitions are used in the file proc.c.
  */

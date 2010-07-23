@@ -28,35 +28,35 @@
 
 /* Info about and entry points into the device dependent code. */
 struct driver {
-  _PROTOTYPE( char *(*dr_name), (void) );
-  _PROTOTYPE( int (*dr_open), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( int (*dr_close), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( int (*dr_ioctl), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( struct device *(*dr_prepare), (int device) );
-  _PROTOTYPE( int (*dr_transfer), (int proc_nr, int opcode, off_t position,
-					iovec_t *iov, unsigned nr_req) );
-  _PROTOTYPE( void (*dr_cleanup), (void) );
-  _PROTOTYPE( void (*dr_geometry), (struct partition *entry) );
-  _PROTOTYPE( void (*dr_signal), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( void (*dr_alarm), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( int (*dr_cancel), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( int (*dr_select), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( int (*dr_other), (struct driver *dp, message *m_ptr) );
-  _PROTOTYPE( int (*dr_hw_int), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( char *(*dr_name), (void) );
+    _PROTOTYPE( int (*dr_open), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( int (*dr_close), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( int (*dr_ioctl), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( struct device *(*dr_prepare), (int device) );
+    _PROTOTYPE( int (*dr_transfer), (int proc_nr, int opcode, off_t position,
+		iovec_t *iov, unsigned nr_req) );
+    _PROTOTYPE( void (*dr_cleanup), (void) );
+    _PROTOTYPE( void (*dr_geometry), (struct partition *entry) );
+    _PROTOTYPE( void (*dr_signal), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( void (*dr_alarm), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( int (*dr_cancel), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( int (*dr_select), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( int (*dr_other), (struct driver *dp, message *m_ptr) );
+    _PROTOTYPE( int (*dr_hw_int), (struct driver *dp, message *m_ptr) );
 };
 
 #if (CHIP == INTEL)
 
 /* Number of bytes you can DMA before hitting a 64K boundary: */
 #define dma_bytes_left(phys)    \
-   ((unsigned) (sizeof(int) == 2 ? 0 : 0x10000) - (unsigned) ((phys) & 0xFFFF))
+    ((unsigned) (sizeof(int) == 2 ? 0 : 0x10000) - (unsigned) ((phys) & 0xFFFF))
 
 #endif /* CHIP == INTEL */
 
 /* Base and size of a partition in bytes. */
 struct device {
-  u64_t dv_base;
-  u64_t dv_size;
+    u64_t dv_base;
+    u64_t dv_size;
 };
 
 #define NIL_DEV		((struct device *) 0)

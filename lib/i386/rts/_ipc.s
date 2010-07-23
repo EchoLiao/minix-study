@@ -73,7 +73,7 @@ __sendrec:
 	push	ebp
 	mov	ebp, esp
 	push	ebx
-	mov	eax, SRC_DST(ebp)	! eax = dest-src
+	mov	eax, SRC_DST(ebp)	! eax = dest-src !因为push ebp, 所有加8而不是4.
 	mov	ebx, MESSAGE(ebp)	! ebx = message pointer
 	mov	ecx, SENDREC		! _sendrec(srcdest, ptr)
 	int	SYSVEC			! trap to the kernel

@@ -38,10 +38,10 @@ done
 shift `expr $OPTIND - 1`
 
 case "$#:$1" in
-1:start|1:stop|1:down)
-    action=$1
-    ;;
-*)  usage
+    1:start|1:stop|1:down)
+	action=$1
+	;;
+    *)  usage
 esac
 
 case $action in
@@ -55,8 +55,9 @@ start)
     # Start crucial system services. The floppy driver *must* be loaded 
     # first, as it needs memory below 16MB in order to do ISA DMA.
     if [ ! "`sysenv label`" = "FLOPPY" ]  
-    then up floppy "" /dev/fd0
-    else up at_wini "" /dev/c0d0
+	then up floppy "" /dev/fd0
+    else 
+	up at_wini "" /dev/c0d0
     fi
     up is ""
     up cmos "" /dev/cmos
@@ -65,7 +66,7 @@ start)
     # Set timezone.
     export TZ=GMT0
     if [ -f "$RC_TZ" ]
-    then . "$RC_TZ"
+	then . "$RC_TZ"
     fi
 
     # Try to read the hardware real-time clock, otherwise do it manually.
@@ -90,7 +91,7 @@ start)
     # where it is based on sysenv (set by FS when probing for CD).
     if [ "$bootcd" = 1 ]
     then	
-    		imagedev="`/bin/sysenv cdproberoot`"
+    		imagedev="`/bin/sysenv cdproberoot`" # 为什么实验显示的是 1 ? QQQQQ 
     		usrdev="`expr $imagedev + 1`"
     		usr_roflag="-r"
     		usr="`/bin/dev2name $usrdev`"

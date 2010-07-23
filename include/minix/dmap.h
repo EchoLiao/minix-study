@@ -10,8 +10,8 @@
 
 /* Device table.  This table is indexed by major device number.  It provides
  * the link between major device numbers and the routines that process them.
- * The table can be update dynamically. The field 'dmap_flags' describe an 
- * entry's current status and determines what control options are possible. 
+ * The table can be update dynamically. The field 'dmap_flags' describe an
+ * entry's current status and determines what control options are possible.
  */
 #define DMAP_MUTABLE		0x01	/* mapping can be overtaken */
 #define DMAP_BUSY		0x02	/* driver busy with request */
@@ -20,10 +20,10 @@
 enum dev_style { STYLE_DEV, STYLE_NDEV, STYLE_TTY, STYLE_CLONE };
 
 extern struct dmap {
-  int _PROTOTYPE ((*dmap_opcl), (int, Dev_t, int, int) );
-  void _PROTOTYPE ((*dmap_io), (int, message *) );
-  int dmap_driver;
-  int dmap_flags;
+    int _PROTOTYPE ((*dmap_opcl), (int, Dev_t, int, int) );
+    void _PROTOTYPE ((*dmap_io), (int, message *) );
+    int dmap_driver;
+    int dmap_flags; /* 描述当前的状态 */
 } dmap[];
 
 /*===========================================================================*
@@ -31,7 +31,7 @@ extern struct dmap {
  *===========================================================================*/
 
 /* Total number of different devices. */
-#define NR_DEVICES   		  32			/* number of (major) devices */
+#define NR_DEVICES   		  32	/* number of (major) devices */
 
 /* Major and minor device numbers for MEMORY driver. */
 #define MEMORY_MAJOR  		   1	/* major device for memory devices */
@@ -42,6 +42,7 @@ extern struct dmap {
 #  define BOOT_DEV    		   4	/* minor device for /dev/boot */
 #  define ZERO_DEV    		   5	/* minor device for /dev/zero */
 
+/* 该公式是由 init_dmap[] 决定的 */ /* RRRRR */
 #define CTRLR(n) ((n)==0 ? 3 : (8 + 2*((n)-1)))	/* magic formula */
 
 /* Full device numbers that are special to the boot monitor and FS. */

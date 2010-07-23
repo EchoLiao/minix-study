@@ -12,7 +12,7 @@ EXTERN int nr_locks;		/* number of locks currently in place */
 EXTERN int reviving;		/* number of pipe processes to be revived */
 EXTERN off_t rdahedpos;		/* position to read ahead */
 EXTERN struct inode *rdahed_inode;	/* pointer to inode to read ahead */
-EXTERN Dev_t root_dev;		/* device number of the root device */
+EXTERN Dev_t root_dev;		/* device number of the root device */ /* 896 */ 
 EXTERN time_t boottime;		/* time in seconds at system boot */
 
 /* The parameters of the call are kept here. */

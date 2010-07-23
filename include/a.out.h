@@ -25,7 +25,7 @@ struct	exec {			/* a.out header */
 };
 
 #define A_MAGIC0      (unsigned char) 0x01
-#define A_MAGIC1      (unsigned char) 0x03 /* ! */ 
+#define A_MAGIC1      (unsigned char) 0x03 /* ! */
 #define BADMAG(X)     ((X).a_magic[0] != A_MAGIC0 ||(X).a_magic[1] != A_MAGIC1)
 
 /* CPU Id of TARGET machine (byte order coded in low order two bits) */
@@ -45,6 +45,8 @@ struct	exec {			/* a.out header */
 #define A_NSYM	0x04	/* new style symbol table */
 #define A_IMG   0x08	/* image instead of executable (e.g. root FS) */
 #define A_EXEC	0x10	/* executable */
+/*  A_SEP表示: hdr.process.a_total == data + bss + stack;
+ * !A_SEP表示:hdr.process.a_stack == data + bss + stack + text. */
 #define A_SEP	0x20	/* separate I/D */
 #define A_PURE	0x40	/* pure text */		/* not used */
 #define A_TOVLY	0x80	/* text overlay */	/* not used */
