@@ -1,0 +1,1 @@
+some notes of minix code study
